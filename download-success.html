@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Download Ready</title>
+</head>
+<body>
+  <h2>Your Induction Form is being prepared...</h2>
+  <p id="status">Please wait while we fetch your download link.</p>
+  <script>
+    fetch('https://YOUR_BACKEND.onrender.com/latest')
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('status').innerHTML = `
+          ✅ Your form is ready!<br>
+          <a href="${data.downloadUrl}" target="_blank" download>Click here to download</a>
+        `;
+      })
+      .catch(() => {
+        document.getElementById('status').innerText = 'Something went wrong. Please try again later.';
+      });
+  </script>
+</body>
+</html>
