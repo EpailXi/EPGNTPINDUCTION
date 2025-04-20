@@ -82,3 +82,31 @@ app.get('/latest', (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Backend running on port ${PORT}`));
+const ONE_DAY = 24 * 60 * 60 * 1000;
+
+setInterval(() => {
+  const directory = __dirname;
+
+  fs.readdir(directory, (err, files) => {
+    if (err) return console.error('Error reading directory:', err);
+
+    files.forEach(file => {
+      if (!file.endsWith('.docx') && !file.endsWith('.zip')) return;
+
+      const filePath = path.join(directory, file);
+      fs.stat(filePath, (err, stats) => {
+        if (err) return console.error('Error reading file stats:', err);
+
+        const now = Date.now();
+        const created = new Date(stats.birthtime).getTime();
+
+        if (now - created > ONE_DAY) {
+          fs.unlink(filePath, err => {
+            if (err) console.error('Failed to delete file:', file, err);
+            else console.log('Deleted old file:', file);
+          });
+        }
+      });
+    });
+  });
+}, 60 * 60 * 1000); // ⏱ Runs every 1 hour
