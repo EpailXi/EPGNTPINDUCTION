@@ -15,6 +15,7 @@ app.use(bodyParser.json());
 app.use(express.static(__dirname));
 
 app.post('/webhook/induction', async (req, res) => {
+  res.send('✅ Webhook endpoint is live. Use POST method.');
   const fv = req.body.field_values;
 
   const fields = {
