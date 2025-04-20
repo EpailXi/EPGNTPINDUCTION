@@ -2,22 +2,26 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Download Ready</title>
+  <title>Download Induction Package</title>
 </head>
 <body>
-  <h2>Your Induction Form is being prepared...</h2>
-  <p id="status">Please wait while we fetch your download link.</p>
+  <h2>Thank you! Your induction package is ready.</h2>
+  <a id="dl" href="#">Download your file here</a>
+
   <script>
-    fetch('https://YOUR_BACKEND.onrender.com/latest')
+    // Assume Feishu redirected with ts=timestamp
+    const params = new URLSearchParams(window.location.search);
+    const ts = params.get('ts');
+
+    // You may need to map ts to filename on your backend
+    fetch(`https://epg-induction.up.railway.app/webhook/induction?ts=${ts}`)
       .then(res => res.json())
       .then(data => {
-        document.getElementById('status').innerHTML = `
-          ✅ Your form is ready!<br>
-          <a href="${data.downloadUrl}" target="_blank" download>Click here to download</a>
-        `;
-      })
-      .catch(() => {
-        document.getElementById('status').innerText = 'Something went wrong. Please try again later.';
+        if (data.downloadUrl) {
+          document.getElementById('dl').href = data.downloadUrl;
+        } else {
+          document.getElementById('dl').textContent = 'File not found. Please try again.';
+        }
       });
   </script>
 </body>
