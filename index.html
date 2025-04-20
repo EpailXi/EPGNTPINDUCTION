@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EPG EHS DayOne-NTP Induction Web</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      padding: 1rem;
+      background: #f4f4f4;
+    }
+
+    header img {
+      height: 40px;
+      margin-right: 1rem;
+    }
+
+    nav, .subnav {
+      display: flex;
+      background: #ddd;
+    }
+
+    nav button, .subnav button {
+      flex: 1;
+      padding: 0.75rem;
+      border: none;
+      background: #ddd;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    nav button.active,
+    .subnav button.active {
+      background: #fff;
+      font-weight: bold;
+    }
+
+    main {
+      padding: 1rem;
+    }
+
+    iframe {
+      width: 100%;
+      height: 80vh;
+      border: none;
+      background: #fff;
+    }
+
+    #subtabs {
+      display: none;
+      flex-direction: row;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="https://cdn.asp.events/CLIENT_CloserSt_D86EA381_5056_B739_5482D50A1A831DDD/sites/DCWS-2023/media/libraries/exhibitors/8bc5d1cb-06a7-11ef-b52-06bd0f937899-logo.png/fit-in/500x9999/filters:no_upscale()" alt="EPG Logo">
+    <h1>EPG EHS DayOne-NTP Induction Web</h1>
+  </header>
+
+  <!-- Top Navigation -->
+  <nav>
+    <button id="tab1" class="active">Submit Request</button>
+    <button id="tab2">Query Search</button>
+    <button id="tab3">EPG EHS Access</button>
+    <button id="tab4">Induction Slide</button>
+  </nav>
+
+  <!-- Sub Navigation for Induction Slide -->
+  <div class="subnav" id="subtabs">
+    <button id="subtab1" class="active">Block F</button>
+    <button id="subtab2">Block H</button>
+  </div>
+
+  <!-- Main Content -->
+  <main>
+    <iframe id="frame" src="https://twswzvv3ark.sg.feishu.cn/share/base/form/shrlgPuhdE1BMJp9m35UCE1P2db"></iframe>
+  </main>
+
+  <!-- Script to Handle Navigation -->
+  <script>
+    const mainTabs = {
+      tab1: 'https://twswzvv3ark.sg.feishu.cn/share/base/form/shrlgPuhdE1BMJp9m35UCE1P2db',
+      tab2: 'https://twswzvv3ark.sg.feishu.cn/share/base/query/shrlg51LfM6trGZoyggk5RhyiWy',
+      tab3: 'https://twswzvv3ark.sg.feishu.cn/share/base/view/shrlgUmnr3LVMDLPgijDJCwnAXc'
+    };
+
+    const subTabs = {
+      subtab1: 'https://twswzvv3ark.sg.feishu.cn/file/RjUib4vWXoiFgcxlctslNW88gAg?from=from_copylink',
+      subtab2: 'https://twswzvv3ark.sg.feishu.cn/slides/OzJisWFv9lsTlFdx2XflBdl5gKf?from=from_copylink'
+    };
+
+    // Main tab logic
+    document.querySelectorAll('nav button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const iframe = document.getElementById('frame');
+        const subtabs = document.getElementById('subtabs');
+
+        if (btn.id === 'tab4') {
+          subtabs.style.display = 'flex';
+          document.getElementById('subtab1').click(); // default to Block F
+        } else {
+          subtabs.style.display = 'none';
+          iframe.src = mainTabs[btn.id];
+        }
+      });
+    });
+
+    // Sub-tab logic
+    document.querySelectorAll('.subnav button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.subnav button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('frame').src = subTabs[btn.id];
+      });
+    });
+  </script>
+</body>
+</html>
