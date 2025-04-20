@@ -12,7 +12,7 @@ let latestDownload = null;
 
 const app = express();
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(__dirname));
 
 app.post('/webhook/induction', async (req, res) => {
   const fv = req.body.field_values;
