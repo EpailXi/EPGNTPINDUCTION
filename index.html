@@ -5,9 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>EPG EHS DayOne-NTP Induction Web 入场培训网</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
-      font-family: sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
     }
 
     header {
@@ -15,6 +21,7 @@
       align-items: center;
       padding: 1rem;
       background: #f4f4f4;
+      flex-wrap: wrap;
     }
 
     header img {
@@ -22,28 +29,33 @@
       margin-right: 1rem;
     }
 
+    header h1 {
+      font-size: 1.2rem;
+      flex: 1;
+    }
+
     nav, .subnav {
       display: flex;
+      flex-wrap: wrap;
       background: #ddd;
     }
 
     nav button, .subnav button {
-      flex: 1;
+      flex: 1 1 50%;
       padding: 0.75rem;
       border: none;
       background: #ddd;
       cursor: pointer;
-      font-size: 16px;
+      font-size: 1rem;
     }
 
-    nav button.active,
-    .subnav button.active {
+    nav button.active, .subnav button.active {
       background: #fff;
       font-weight: bold;
     }
 
     main {
-      padding: 1rem;
+      padding: 0;
     }
 
     iframe {
@@ -58,34 +70,45 @@
       flex-direction: row;
       margin-bottom: 1rem;
     }
+
+    @media (max-width: 600px) {
+      nav button, .subnav button {
+        flex: 1 1 100%;
+        font-size: 0.95rem;
+      }
+
+      header h1 {
+        font-size: 1rem;
+      }
+
+      iframe {
+        height: 75vh;
+      }
+    }
   </style>
 </head>
 <body>
   <header>
     <img src="https://cdn.asp.events/CLIENT_CloserSt_D86EA381_5056_B739_5482D50A1A831DDD/sites/DCWS-2023/media/libraries/exhibitors/8bc5d1cb-06a7-11ef-b52-06bd0f937899-logo.png/fit-in/500x9999/filters:no_upscale()" alt="EPG Logo">
-    <h1>EPG EHS DayOne-NTP Induction Web 入场培训网 (DEVELOPING IN PROGRESS) </h1>
+    <h1>EPG EHS DayOne-NTP Induction Web 入场培训网 (DEVELOPING IN PROGRESS)</h1>
   </header>
 
-  <!-- Top Navigation -->
   <nav>
     <button id="tab1" class="active">Submit Request 提交入场培训申请</button>
     <button id="tab2">Query Search 人员查找</button>
     <button id="tab3">EPG EHS Access</button>
-    <button id="tab4">Induction Slide</button>
+    <button id="tab4">Induction Slide 培训幻灯片</button>
   </nav>
 
-  <!-- Sub Navigation for Induction Slide -->
   <div class="subnav" id="subtabs">
     <button id="subtab1" class="active">Block F</button>
     <button id="subtab2">Block H</button>
   </div>
 
-  <!-- Main Content -->
   <main>
     <iframe id="frame" src="https://twswzvv3ark.sg.feishu.cn/share/base/form/shrlgPuhdE1BMJp9m35UCE1P2db"></iframe>
   </main>
 
-  <!-- Script to Handle Navigation -->
   <script>
     const mainTabs = {
       tab1: 'https://twswzvv3ark.sg.feishu.cn/share/base/form/shrlgPuhdE1BMJp9m35UCE1P2db',
@@ -98,7 +121,6 @@
       subtab2: 'https://twswzvv3ark.sg.feishu.cn/slides/OzJisWFv9lsTlFdx2XflBdl5gKf?from=from_copylink'
     };
 
-    // Main tab logic
     document.querySelectorAll('nav button').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
@@ -108,7 +130,7 @@
 
         if (btn.id === 'tab4') {
           subtabs.style.display = 'flex';
-          document.getElementById('subtab1').click(); // default to Block F
+          document.getElementById('subtab1').click();
         } else {
           subtabs.style.display = 'none';
           iframe.src = mainTabs[btn.id];
@@ -116,7 +138,6 @@
       });
     });
 
-    // Sub-tab logic
     document.querySelectorAll('.subnav button').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.subnav button').forEach(b => b.classList.remove('active'));
