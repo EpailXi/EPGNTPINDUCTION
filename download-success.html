@@ -2,26 +2,43 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Download Induction Package</title>
+  <title>Induction Package Ready</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 2rem;
+    }
+    a {
+      background: #007BFF;
+      color: white;
+      padding: 1rem 1.5rem;
+      text-decoration: none;
+      border-radius: 8px;
+      display: inline-block;
+      margin-top: 1rem;
+    }
+  </style>
 </head>
 <body>
-  <h2>Thank you! Your induction package is ready.</h2>
-  <a id="dl" href="#">Download your file here</a>
+  <h1>🎉 Your induction package is ready!</h1>
+  <p>You can now download your personalized file below:</p>
+  <div id="link-container">Loading...</div>
 
   <script>
-    // Assume Feishu redirected with ts=timestamp
-    const params = new URLSearchParams(window.location.search);
-    const ts = params.get('ts');
-
-    // You may need to map ts to filename on your backend
-    fetch(`https://epg-induction.up.railway.app/webhook/induction?ts=${ts}`)
+    fetch('https://epg-induction.onrender.com/webhook/induction')
       .then(res => res.json())
       .then(data => {
         if (data.downloadUrl) {
-          document.getElementById('dl').href = data.downloadUrl;
+          document.getElementById('link-container').innerHTML = `
+            <a href="${data.downloadUrl}" download target="_blank">⬇️ Download PDF</a>
+          `;
         } else {
-          document.getElementById('dl').textContent = 'File not found. Please try again.';
+          document.getElementById('link-container').textContent = 'File not available.';
         }
+      })
+      .catch(() => {
+        document.getElementById('link-container').textContent = 'Error fetching file.';
       });
   </script>
 </body>
