@@ -24,6 +24,7 @@
     header img {
       height: 40px;
       margin-right: 1rem;
+      object-fit: contain;
     }
     header h1 {
       font-size: 1.2rem;
@@ -89,6 +90,7 @@
 
 <body>
   <header>
+    <!-- Fixed the image link -->
     <img src="https://cdn.asp.events/CLIENT_CloserSt_D86EA381_5056_B739_5482D50A1A831DDD/sites/DCWS-2023/media/libraries/exhibitors/8bc5d1cb-06a7-11ef-b52-06bd0f937899-logo.png/fit-in/500x9999/filters:no_upscale/" alt="EPG Logo">
     <h1>EPG EHS DayOne-NTP Induction Web 入场培训网 (DEVELOPING IN PROGRESS)</h1>
   </header>
@@ -133,15 +135,8 @@
         subtabs.style.display = 'flex';
         document.getElementById('subtab1').click();
       } else if (id === 'tab2') {
-        // Try to load in iframe first
-        iframe.src = mainTabs.tab2;
-
-        // Check if login is required, by catching error (e.g., login prompt)
-        iframe.onload = function() {
-          if (iframe.contentDocument.body.innerHTML.includes('login')) {
-            window.open(mainTabs.tab2, '_blank'); // Open in a new tab if login is required
-          }
-        };
+        // Open Query tab in a new window (separate tab)
+        window.open(mainTabs.tab2, '_blank');
       } else {
         subtabs.style.display = 'none';
         iframe.src = mainTabs[id];
