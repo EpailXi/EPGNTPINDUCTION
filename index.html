@@ -133,8 +133,15 @@
         subtabs.style.display = 'flex';
         document.getElementById('subtab1').click();
       } else if (id === 'tab2') {
-        // Open the Query tab in a new window
-        window.open(mainTabs.tab2, '_blank');
+        // Try to load in iframe first
+        iframe.src = mainTabs.tab2;
+
+        // Check if login is required, by catching error (e.g., login prompt)
+        iframe.onload = function() {
+          if (iframe.contentDocument.body.innerHTML.includes('login')) {
+            window.open(mainTabs.tab2, '_blank'); // Open in a new tab if login is required
+          }
+        };
       } else {
         subtabs.style.display = 'none';
         iframe.src = mainTabs[id];
