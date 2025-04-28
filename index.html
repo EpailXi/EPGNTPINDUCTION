@@ -132,6 +132,9 @@
       if (id === 'tab4') {
         subtabs.style.display = 'flex';
         document.getElementById('subtab1').click();
+      } else if (id === 'tab2') {
+        // Open the Query tab in a new window
+        window.open(mainTabs.tab2, '_blank');
       } else {
         subtabs.style.display = 'none';
         iframe.src = mainTabs[id];
