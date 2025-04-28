@@ -1,26 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>EPG EHS DayOne-NTP Induction Web 入场培训网</title>
-  <!-- PizZip & Docxtemplater from CDN -->
-  <script src="https://unpkg.com/pizzip@3.1.1/dist/pizzip.js"></script>
-  <script src="https://unpkg.com/docxtemplater@3.29.0/build/docxtemplater.js"></script>
   <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; background: #f9f9f9; }
-    header { background: #f4f4f4; padding: 1rem; display: flex; align-items: center; }
-    header img { height: 40px; margin-right: 1rem; }
-    header h1 { font-size: 1.2rem; }
-    .tab-container { display: flex; background: #eaeaea; border-bottom: 2px solid #ccc; }
-    .tab-container button { flex: 1; padding: 1rem; background: none; border: none; cursor: pointer; font-weight: 500; }
-    .tab-container button.active { background: #fff; border-bottom: 3px solid #007BFF; color: #007BFF; }
-    main { padding: 1rem; }
-    iframe { width: 100%; height: 80vh; border: none; }
-    form { max-width: 600px; margin: 2rem auto; background: #fff; padding: 1rem; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-    label { display: block; margin-bottom: 0.5rem; }
-    input, button { width: 100%; padding: 0.5rem; margin-bottom: 1rem; }
-    button { cursor: pointer; background: #007BFF; color: white; border: none; border-radius: 4px; }
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      padding: 1rem;
+      background: #f4f4f4;
+      flex-wrap: wrap;
+    }
+
+    header img {
+      height: 40px;
+      margin-right: 1rem;
+    }
+
+    header h1 {
+      font-size: 1.2rem;
+      flex: 1;
+    }
+
+    .tab-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      background-color: #eaeaea;
+      border-bottom: 2px solid #ccc;
+    }
+
+    .tab-container button {
+      background: transparent;
+      border: none;
+      padding: 1rem 1.5rem;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.2s, color 0.2s;
+      color: #555;
+      font-weight: 500;
+      flex-grow: 1;
+      text-align: center;
+    }
+
+    .tab-container button:hover {
+      background-color: #ddd;
+      color: #000;
+    }
+
+    .tab-container button.active {
+      background-color: #ffffff;
+      color: #007BFF;
+      font-weight: bold;
+      border-bottom: 3px solid #007BFF;
+    }
+
+    .subnav {
+      display: none;
+      flex-wrap: wrap;
+      justify-content: center;
+      background-color: #f0f0f0;
+    }
+
+    .subnav button {
+      background: transparent;
+      border: none;
+      padding: 0.75rem 1rem;
+      cursor: pointer;
+      font-size: 1rem;
+      color: #444;
+      flex-grow: 1;
+      text-align: center;
+    }
+
+    .subnav button:hover {
+      background-color: #ddd;
+      color: #000;
+    }
+
+    .subnav button.active {
+      background-color: #fff;
+      color: #007BFF;
+      font-weight: bold;
+      border-bottom: 2px solid #007BFF;
+    }
+
+    main {
+      padding: 0;
+    }
+
+    iframe {
+      width: 100%;
+      height: 80vh;
+      border: none;
+      background: #fff;
+    }
+
+    @media (max-width: 600px) {
+      .tab-container button, .subnav button {
+        flex: 1 1 100%;
+        padding: 0.75rem;
+        font-size: 1rem;
+      }
+
+      header h1 {
+        font-size: 1rem;
+      }
+
+      iframe {
+        height: 75vh;
+      }
+    }
   </style>
 </head>
 <body>
@@ -29,6 +131,7 @@
     <h1>EPG EHS DayOne-NTP Induction Web 入场培训网 (DEVELOPING IN PROGRESS)</h1>
   </header>
 
+  <!-- Top Navigation Tabs -->
   <div class="tab-container">
     <button id="tab1" class="active">📥 Submit 入场申请</button>
     <button id="tab2">🔍 Query 查找</button>
@@ -36,26 +139,18 @@
     <button id="tab4">📊 Induction Slide 幻灯片</button>
   </div>
 
+  <!-- Slide Subtabs -->
+  <div class="subnav" id="subtabs">
+    <button id="subtab1" class="active">🏗 Block F</button>
+    <button id="subtab2">🏗 Block H</button>
+  </div>
+
+  <!-- Main Content -->
   <main>
     <iframe id="frame" src="https://twswzvv3ark.sg.feishu.cn/share/base/form/shrlgPuhdE1BMJp9m35UCE1P2db" title="EPG Induction Form"></iframe>
   </main>
 
-  <form id="inductionForm" style="display:none">
-    <label>Company: <input type="text" name="COMPANY"></label>
-    <label>Designation: <input type="text" name="DESIGNATION"></label>
-    <label>Name: <input type="text" name="NAME"></label>
-    <label>IC/Passport No.: <input type="text" name="IC_PASSPORT"></label>
-    <label>Passport Expiry: <input type="date" name="PP_EXP"></label>
-    <label>Work Permit Expiry: <input type="date" name="WP_EXP"></label>
-    <label>Nationality: <input type="text" name="NATIONALITY"></label>
-    <label>Date of Birth: <input type="date" name="DATE_OF_BIRTH"></label>
-    <label>CIDB Expiry Date: <input type="date" name="CIDB_EXP"></label>
-    <label>Contact No.: <input type="tel" name="CONTACT_NO"></label>
-    <label>Emergency Contact Name: <input type="text" name="EMERG_NAME"></label>
-    <label>Emergency Contact No.: <input type="tel" name="EMERG_NO"></label>
-    <button type="submit">Generate & Download</button>
-  </form>
-
+  <!-- Tab Logic -->
   <script>
     const mainTabs = {
       tab1: 'https://twswzvv3ark.sg.feishu.cn/share/base/form/shrlgPuhdE1BMJp9m35UCE1P2db',
@@ -63,45 +158,50 @@
       tab3: 'https://twswzvv3ark.sg.feishu.cn/share/base/view/shrlgUmnr3LVMDLPgijDJCwnAXc'
     };
 
+    const subTabs = {
+      subtab1: 'https://twswzvv3ark.sg.feishu.cn/file/RjUib4vWXoiFgcxlctslNW88gAg?from=from_copylink',
+      subtab2: 'https://twswzvv3ark.sg.feishu.cn/slides/OzJisWFv9lsTlFdx2XflBdl5gKf?from=from_copylink'
+    };
+
+    const isMobile = /iPhone|iPad|Android|webOS|BlackBerry|Windows Phone/i.test(navigator.userAgent);
+    const iframe = document.getElementById('frame');
+    const subtabs = document.getElementById('subtabs');
+
     document.querySelectorAll('.tab-container button').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.tab-container button').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
+
         const id = btn.id;
+
         if (id === 'tab4') {
-          window.location.href = 'download-success.html';
+          subtabs.style.display = 'flex';
+          document.getElementById('subtab1').click();
         } else {
-          document.getElementById('frame').src = mainTabs[id];
+          subtabs.style.display = 'none';
+
+          // Handle mobile fallback for Lark restricted views
+          if ((id === 'tab2' || id === 'tab3') && isMobile) {
+            iframe.src = 'about:blank';
+            iframe.srcdoc = `
+              <div style="padding: 2rem; font-family: sans-serif; text-align: center;">
+                <p>⚠️ 此功能在手机上可能无法嵌入显示。</p>
+                <p><a href="${mainTabs[id]}" target="_blank" style="color: #007bff;">点击此处在新窗口打开</a></p>
+              </div>
+            `;
+          } else {
+            iframe.src = mainTabs[id];
+          }
         }
       });
     });
 
-    document.getElementById('inductionForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      const formData = new FormData(this);
-      const data = {};
-      for (let [key, val] of formData.entries()) data[key] = val || '';
-
-      const tplUrl = 'templates/SafetyInductionTemplate.docx';
-      const res = await fetch(tplUrl);
-      if (!res.ok) { alert('Could not load template'); return; }
-      const arrayBuffer = await res.arrayBuffer();
-
-      const zip = new PizZip(arrayBuffer);
-      const doc = new window.docxtemplater(zip, { paragraphLoop: true, linebreaks: true });
-      doc.setData(data);
-      try { doc.render(); }
-      catch (err) { console.error(err); alert('Template render error'); return; }
-
-      const blob = doc.getZip().generate({ type: 'blob', mimeType:'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
-      const downloadUrl = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = downloadUrl;
-      a.download = 'Filled_Safety_Induction_Form.docx';
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(downloadUrl);
+    document.querySelectorAll('.subnav button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.subnav button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        iframe.src = subTabs[btn.id];
+      });
     });
   </script>
 </body>
