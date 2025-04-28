@@ -124,6 +124,7 @@
     const iframe = document.getElementById('frame');
     const subtabs = document.getElementById('subtabs');
 
+    // Handle tab click
     function handleTabClick(id) {
       document.querySelectorAll('.tab-container button').forEach(btn => btn.classList.remove('active'));
       document.getElementById(id).classList.add('active');
@@ -133,18 +134,18 @@
         document.getElementById('subtab1').click();
       } else {
         subtabs.style.display = 'none';
-        window.open(mainTabs[id], '_blank');
+        iframe.src = mainTabs[id];
       }
-      history.replaceState(null, '', '?tab=' + id);
     }
 
+    // Handle subtab click
     function handleSubtabClick(id) {
       document.querySelectorAll('.subnav button').forEach(btn => btn.classList.remove('active'));
       document.getElementById(id).classList.add('active');
-      window.open(subTabs[id], '_blank');
-      history.replaceState(null, '', '?subtab=' + id);
+      iframe.src = subTabs[id];
     }
 
+    // Add event listeners for tab and subtab buttons
     document.querySelectorAll('.tab-container button').forEach(btn => {
       btn.addEventListener('click', () => handleTabClick(btn.id));
     });
