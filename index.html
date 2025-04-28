@@ -89,7 +89,7 @@
 
 <body>
   <header>
-    <img src="https://cdn.asp.events/CLIENT_CloserSt_D86EA381_5056_B739_5482D50A1A831DDD/sites/DCWS-2023/media/libraries/exhibitors/8bc5d1cb-06a7-11ef-b52-06bd0f937899-logo.png/fit-in/500x9999/filters:no_upscale()" alt="EPG Logo">
+    <img src="https://cdn.asp.events/CLIENT_CloserSt_D86EA381_5056_B739_5482D50A1A831DDD/sites/DCWS-2023/media/libraries/exhibitors/8bc5d1cb-06a7-11ef-b52-06bd0f937899-logo.png/fit-in/500x9999/filters:no_upscale/" alt="EPG Logo">
     <h1>EPG EHS DayOne-NTP Induction Web 入场培训网 (DEVELOPING IN PROGRESS)</h1>
   </header>
 
@@ -136,6 +136,9 @@
         subtabs.style.display = 'none';
         iframe.src = mainTabs[id];
       }
+
+      // Update URL without reloading the page
+      history.pushState({ tab: id }, '', `?tab=${id}`);
     }
 
     // Handle subtab click
@@ -143,6 +146,9 @@
       document.querySelectorAll('.subnav button').forEach(btn => btn.classList.remove('active'));
       document.getElementById(id).classList.add('active');
       iframe.src = subTabs[id];
+
+      // Update URL without reloading the page
+      history.pushState({ subtab: id }, '', `?tab=tab4&subtab=${id}`);
     }
 
     // Add event listeners for tab and subtab buttons
@@ -152,6 +158,16 @@
 
     document.querySelectorAll('.subnav button').forEach(btn => {
       btn.addEventListener('click', () => handleSubtabClick(btn.id));
+    });
+
+    // Handle browser back/forward
+    window.addEventListener('popstate', (event) => {
+      if (event.state && event.state.tab) {
+        handleTabClick(event.state.tab);
+      }
+      if (event.state && event.state.subtab) {
+        handleSubtabClick(event.state.subtab);
+      }
     });
 
     // Auto activate tab or subtab based on URL params
