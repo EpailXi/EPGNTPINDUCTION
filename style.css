@@ -1,0 +1,93 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  background: #f4f4f4;
+  flex-wrap: wrap;
+}
+
+header img {
+  height: 40px;
+  margin-right: 1rem;
+}
+
+header h1 {
+  font-size: 1.2rem;
+  flex: 1;
+}
+
+.tab-container, .subnav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  background-color: #eaeaea;
+  border-bottom: 2px solid #ccc;
+}
+
+.subnav {
+  display: none;
+  background-color: #f0f0f0;
+}
+
+.tab-container button, .subnav button {
+  background: transparent;
+  border: none;
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.2s, color 0.2s;
+  color: #555;
+  font-weight: 500;
+  flex-grow: 1;
+  text-align: center;
+}
+
+.tab-container button:hover, .subnav button:hover {
+  background-color: #ddd;
+  color: #000;
+}
+
+.tab-container button.active, .subnav button.active {
+  background-color: #ffffff;
+  color: #007BFF;
+  font-weight: bold;
+  border-bottom: 3px solid #007BFF;
+}
+
+main {
+  padding: 0;
+}
+
+iframe {
+  width: 100%;
+  height: 80vh;
+  border: none;
+  background: #fff;
+}
+
+@media (max-width: 600px) {
+  .tab-container button, .subnav button {
+    flex: 1 1 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+  }
+
+  header h1 {
+    font-size: 1rem;
+  }
+
+  iframe {
+    height: 75vh;
+  }
+}
