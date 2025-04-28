@@ -2,15 +2,94 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>EPG EHS DayOne-NTP Induction Web 入场培训网</title>
-  <link rel="preload" href="style.css" as="style">
-  <link rel="stylesheet" href="style.css">
-  <script src="main.js" defer></script>
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      padding: 1rem;
+      background: #f4f4f4;
+      flex-wrap: wrap;
+    }
+    header img {
+      height: 40px;
+      margin-right: 1rem;
+    }
+    header h1 {
+      font-size: 1.2rem;
+      flex: 1;
+    }
+    .tab-container, .subnav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      background-color: #eaeaea;
+      border-bottom: 2px solid #ccc;
+    }
+    .subnav {
+      display: none;
+      background-color: #f0f0f0;
+    }
+    .tab-container button, .subnav button {
+      background: none;
+      border: none;
+      padding: 1rem 1.5rem;
+      font-size: 1rem;
+      color: #555;
+      font-weight: 500;
+      flex: 1 1 auto;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      text-align: center;
+    }
+    .tab-container button:hover, .subnav button:hover {
+      background-color: #ddd;
+      color: #000;
+    }
+    .tab-container button.active, .subnav button.active {
+      background-color: #fff;
+      color: #007BFF;
+      font-weight: bold;
+      border-bottom: 3px solid #007BFF;
+    }
+    main {
+      padding: 0;
+    }
+    iframe {
+      width: 100%;
+      height: 80vh;
+      border: none;
+      background: #fff;
+    }
+    @media (max-width: 600px) {
+      .tab-container button, .subnav button {
+        flex: 1 1 100%;
+        padding: 0.75rem;
+        font-size: 1rem;
+      }
+      header h1 {
+        font-size: 1rem;
+      }
+      iframe {
+        height: 75vh;
+      }
+    }
+  </style>
 </head>
+
 <body>
   <header>
-    <img src="images/logo.webp" alt="EPG Logo" loading="lazy">
+    <img src="https://cdn.asp.events/CLIENT_CloserSt_D86EA381_5056_B739_5482D50A1A831DDD/sites/DCWS-2023/media/libraries/exhibitors/8bc5d1cb-06a7-11ef-b52-06bd0f937899-logo.png/fit-in/500x9999/filters:no_upscale()" alt="EPG Logo">
     <h1>EPG EHS DayOne-NTP Induction Web 入场培训网 (DEVELOPING IN PROGRESS)</h1>
   </header>
 
@@ -27,7 +106,66 @@
   </div>
 
   <main>
-    <iframe id="frame" loading="lazy" src="https://twswzvv3ark.sg.feishu.cn/share/base/form/shrlgPuhdE1BMJp9m35UCE1P2db" title="EPG Induction Form"></iframe>
+    <iframe id="frame" src="https://twswzvv3ark.sg.feishu.cn/share/base/form/shrlgPuhdE1BMJp9m35UCE1P2db" title="EPG Induction Form"></iframe>
   </main>
+
+  <script>
+    const mainTabs = {
+      tab1: 'https://twswzvv3ark.sg.feishu.cn/share/base/form/shrlgPuhdE1BMJp9m35UCE1P2db',
+      tab2: 'https://twswzvv3ark.sg.feishu.cn/share/base/query/shrlg51LfM6trGZoyggk5RhyiWy',
+      tab3: 'https://twswzvv3ark.sg.feishu.cn/share/base/view/shrlgUmnr3LVMDLPgijDJCwnAXc'
+    };
+
+    const subTabs = {
+      subtab1: 'https://twswzvv3ark.sg.feishu.cn/file/RjUib4vWXoiFgcxlctslNW88gAg?from=from_copylink',
+      subtab2: 'https://twswzvv3ark.sg.feishu.cn/slides/OzJisWFv9lsTlFdx2XflBdl5gKf?from=from_copylink'
+    };
+
+    const iframe = document.getElementById('frame');
+    const subtabs = document.getElementById('subtabs');
+
+    function handleTabClick(id) {
+      document.querySelectorAll('.tab-container button').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+
+      if (id === 'tab4') {
+        subtabs.style.display = 'flex';
+        document.getElementById('subtab1').click();
+      } else {
+        subtabs.style.display = 'none';
+        window.open(mainTabs[id], '_blank');
+      }
+      history.replaceState(null, '', '?tab=' + id);
+    }
+
+    function handleSubtabClick(id) {
+      document.querySelectorAll('.subnav button').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      window.open(subTabs[id], '_blank');
+      history.replaceState(null, '', '?subtab=' + id);
+    }
+
+    document.querySelectorAll('.tab-container button').forEach(btn => {
+      btn.addEventListener('click', () => handleTabClick(btn.id));
+    });
+
+    document.querySelectorAll('.subnav button').forEach(btn => {
+      btn.addEventListener('click', () => handleSubtabClick(btn.id));
+    });
+
+    // Auto activate tab or subtab based on URL params
+    window.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const tab = params.get('tab');
+      const subtab = params.get('subtab');
+
+      if (tab && document.getElementById(tab)) {
+        handleTabClick(tab);
+      } else if (subtab && document.getElementById(subtab)) {
+        handleTabClick('tab4');
+        handleSubtabClick(subtab);
+      }
+    });
+  </script>
 </body>
 </html>
