@@ -2,136 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>EPG EHS DayOne-NTP Induction Web 入场培训网</title>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background-color: #f9f9f9;
-      color: #333;
-    }
-
-    header {
-      display: flex;
-      align-items: center;
-      padding: 1rem;
-      background: #f4f4f4;
-      flex-wrap: wrap;
-    }
-
-    header img {
-      height: 40px;
-      margin-right: 1rem;
-    }
-
-    header h1 {
-      font-size: 1.2rem;
-      flex: 1;
-    }
-
-    .tab-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      background-color: #eaeaea;
-      border-bottom: 2px solid #ccc;
-    }
-
-    .tab-container button {
-      background: transparent;
-      border: none;
-      padding: 1rem 1.5rem;
-      cursor: pointer;
-      font-size: 1rem;
-      transition: background 0.2s, color 0.2s;
-      color: #555;
-      font-weight: 500;
-      flex-grow: 1;
-      text-align: center;
-    }
-
-    .tab-container button:hover {
-      background-color: #ddd;
-      color: #000;
-    }
-
-    .tab-container button.active {
-      background-color: #ffffff;
-      color: #007BFF;
-      font-weight: bold;
-      border-bottom: 3px solid #007BFF;
-    }
-
-    .subnav {
-      display: none;
-      flex-wrap: wrap;
-      justify-content: center;
-      background-color: #f0f0f0;
-    }
-
-    .subnav button {
-      background: transparent;
-      border: none;
-      padding: 0.75rem 1rem;
-      cursor: pointer;
-      font-size: 1rem;
-      color: #444;
-      flex-grow: 1;
-      text-align: center;
-    }
-
-    .subnav button:hover {
-      background-color: #ddd;
-      color: #000;
-    }
-
-    .subnav button.active {
-      background-color: #fff;
-      color: #007BFF;
-      font-weight: bold;
-      border-bottom: 2px solid #007BFF;
-    }
-
-    main {
-      padding: 0;
-    }
-
-    iframe {
-      width: 100%;
-      height: 80vh;
-      border: none;
-      background: #fff;
-    }
-
-    @media (max-width: 600px) {
-      .tab-container button, .subnav button {
-        flex: 1 1 100%;
-        padding: 0.75rem;
-        font-size: 1rem;
-      }
-
-      header h1 {
-        font-size: 1rem;
-      }
-
-      iframe {
-        height: 75vh;
-      }
-    }
-  </style>
+  <link rel="preload" href="style.css" as="style">
+  <link rel="stylesheet" href="style.css">
+  <script src="main.js" defer></script>
 </head>
 <body>
   <header>
-    <img src="https://cdn.asp.events/CLIENT_CloserSt_D86EA381_5056_B739_5482D50A1A831DDD/sites/DCWS-2023/media/libraries/exhibitors/8bc5d1cb-06a7-11ef-b52-06bd0f937899-logo.png/fit-in/500x9999/filters:no_upscale()" alt="EPG Logo">
+    <img src="images/logo.webp" alt="EPG Logo" loading="lazy">
     <h1>EPG EHS DayOne-NTP Induction Web 入场培训网 (DEVELOPING IN PROGRESS)</h1>
   </header>
 
-  <!-- Top Navigation Tabs -->
   <div class="tab-container">
     <button id="tab1" class="active">📥 Submit 入场申请</button>
     <button id="tab2">🔍 Query 查找</button>
@@ -139,70 +21,13 @@
     <button id="tab4">📊 Induction Slide 幻灯片</button>
   </div>
 
-  <!-- Slide Subtabs -->
   <div class="subnav" id="subtabs">
     <button id="subtab1" class="active">🏗 Block F</button>
     <button id="subtab2">🏗 Block H</button>
   </div>
 
-  <!-- Main Content -->
   <main>
-    <iframe id="frame" src="https://twswzvv3ark.sg.feishu.cn/share/base/form/shrlgPuhdE1BMJp9m35UCE1P2db" title="EPG Induction Form"></iframe>
+    <iframe id="frame" loading="lazy" src="https://twswzvv3ark.sg.feishu.cn/share/base/form/shrlgPuhdE1BMJp9m35UCE1P2db" title="EPG Induction Form"></iframe>
   </main>
-
-  <!-- Tab Logic -->
-  <script>
-    const mainTabs = {
-      tab1: 'https://twswzvv3ark.sg.feishu.cn/share/base/form/shrlgPuhdE1BMJp9m35UCE1P2db',
-      tab2: 'https://twswzvv3ark.sg.feishu.cn/share/base/query/shrlg51LfM6trGZoyggk5RhyiWy',
-      tab3: 'https://twswzvv3ark.sg.feishu.cn/share/base/view/shrlgUmnr3LVMDLPgijDJCwnAXc'
-    };
-
-    const subTabs = {
-      subtab1: 'https://twswzvv3ark.sg.feishu.cn/file/RjUib4vWXoiFgcxlctslNW88gAg?from=from_copylink',
-      subtab2: 'https://twswzvv3ark.sg.feishu.cn/slides/OzJisWFv9lsTlFdx2XflBdl5gKf?from=from_copylink'
-    };
-
-    const isMobile = /iPhone|iPad|Android|webOS|BlackBerry|Windows Phone/i.test(navigator.userAgent);
-    const iframe = document.getElementById('frame');
-    const subtabs = document.getElementById('subtabs');
-
-    document.querySelectorAll('.tab-container button').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.tab-container button').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-
-        const id = btn.id;
-
-        if (id === 'tab4') {
-          subtabs.style.display = 'flex';
-          document.getElementById('subtab1').click();
-        } else {
-          subtabs.style.display = 'none';
-
-          // Handle mobile fallback for Lark restricted views
-          if ((id === 'tab2' || id === 'tab3') && isMobile) {
-            iframe.src = 'about:blank';
-            iframe.srcdoc = `
-              <div style="padding: 2rem; font-family: sans-serif; text-align: center;">
-                <p>⚠️ 此功能在手机上可能无法嵌入显示。</p>
-                <p><a href="${mainTabs[id]}" target="_blank" style="color: #007bff;">点击此处在新窗口打开</a></p>
-              </div>
-            `;
-          } else {
-            iframe.src = mainTabs[id];
-          }
-        }
-      });
-    });
-
-    document.querySelectorAll('.subnav button').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.subnav button').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        iframe.src = subTabs[btn.id];
-      });
-    });
-  </script>
 </body>
 </html>
