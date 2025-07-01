@@ -103,7 +103,6 @@
 
   <div class="subnav" id="subtabs">
     <button id="subtab1" class="active">🏗 Block H</button>
-    <button id="subtab2">🏗 Block F</button>
   </div>
 
   <main>
@@ -118,8 +117,7 @@
     };
 
     const subTabs = {
-      subtab1: 'https://twswzvv3ark.sg.feishu.cn/slides/OzJisWFv9lsTlFdx2XflBdl5gKf?from=from_copylink',
-      subtab2: 'https://twswzvv3ark.sg.feishu.cn/file/RjUib4vWXoiFgcxlctslNW88gAg?from=from_copylink'
+      subtab1: 'https://twswzvv3ark.sg.feishu.cn/slides/OzJisWFv9lsTlFdx2XflBdl5gKf?from=from_copylink'
     };
 
     const iframe = document.getElementById('frame');
@@ -146,8 +144,7 @@
       document.querySelectorAll('.subnav button').forEach(btn => btn.classList.remove('active'));
       document.getElementById(id).classList.add('active');
       iframe.src = subTabs[id];
-
-      history.pushState({ subtab: id }, '', `?tab=tab4&subtab=${id}`);
+      history.pushState({ tab: 'tab4', subtab: id }, '', `?tab=tab4&subtab=${id}`);
     }
 
     document.querySelectorAll('.tab-container button').forEach(btn => {
@@ -163,7 +160,7 @@
         handleTabClick(event.state.tab);
       }
       if (event.state?.subtab) {
-        handleSubtabClick(event.state.subtab);
+        document.getElementById(event.state.subtab)?.click();
       }
     });
 
@@ -172,11 +169,27 @@
       const tab = params.get('tab');
       const subtab = params.get('subtab');
 
+      // Handle valid tabs
       if (tab && document.getElementById(tab)) {
         handleTabClick(tab);
-      } else if (subtab && document.getElementById(subtab)) {
+        
+        // Special handling for Induction Slide tab
+        if (tab === 'tab4') {
+          if (subtab && document.getElementById(subtab)) {
+            handleSubtabClick(subtab);
+          } else {
+            handleSubtabClick('subtab1');
+          }
+        }
+      } 
+      // Handle direct subtab access
+      else if (subtab && document.getElementById(subtab)) {
         handleTabClick('tab4');
         handleSubtabClick(subtab);
+      }
+      // Default to first tab
+      else {
+        handleTabClick('tab1');
       }
     });
   </script>
