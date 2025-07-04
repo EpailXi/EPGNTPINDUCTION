@@ -65,6 +65,7 @@
     }
     main {
       padding: 0;
+      position: relative;
     }
     iframe {
       width: 100%;
@@ -72,6 +73,28 @@
       border: none;
       background: #fff;
     }
+    /* Loading overlay */
+    .loader-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.8);
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid #ccc;
+      border-top-color: #007BFF;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
     @media (max-width: 600px) {
       .tab-container button, .subnav button {
         flex: 1 1 100%;
@@ -113,13 +136,16 @@
   </div>
 
   <main>
+    <div class="loader-overlay" id="loader">
+      <div class="spinner"></div>
+    </div>
     <iframe id="frame" src="https://twswzvv3ark.sg.feishu.cn/share/base/form/shrlgPuhdE1BMJp9m35UCE1P2db" title="EPG Induction Frame"></iframe>
   </main>
 
   <script>
     const mainTabs = {
       tab1: 'https://twswzvv3ark.sg.feishu.cn/share/base/form/shrlgPuhdE1BMJp9m35UCE1P2db',
-      tab2: '', // Placeholder — will be overridden by subtabs
+      tab2: '',
       tab3: 'https://twswzvv3ark.sg.feishu.cn/share/base/view/shrlgUmnr3LVMDLPgijDJCwnAXc'
     };
 
@@ -133,12 +159,27 @@
     };
 
     const iframe = document.getElementById('frame');
+    const loader = document.getElementById('loader');
+
+    function showLoader() {
+      loader.style.display = 'flex';
+    }
+
+    function hideLoader() {
+      loader.style.display = 'none';
+    }
+
+    function loadIframe(src) {
+      showLoader();
+      iframe.src = src;
+    }
+
+    iframe.addEventListener('load', hideLoader);
 
     function handleTabClick(id) {
       document.querySelectorAll('.tab-container button').forEach(btn => btn.classList.remove('active'));
       document.getElementById(id).classList.add('active');
 
-      // Hide all subtabs
       document.getElementById('subtabs-tab2').style.display = 'none';
       document.getElementById('subtabs-tab4').style.display = 'none';
 
@@ -149,7 +190,7 @@
         document.getElementById('subtabs-tab4').style.display = 'flex';
         handleSubtabClick('subtab1');
       } else {
-        iframe.src = mainTabs[id];
+        loadIframe(mainTabs[id]);
       }
 
       history.pushState({ tab: id }, '', `?tab=${id}`);
@@ -158,14 +199,14 @@
     function handleSubtabClick(id) {
       document.querySelectorAll('#subtabs-tab4 button').forEach(btn => btn.classList.remove('active'));
       document.getElementById(id).classList.add('active');
-      iframe.src = subTabsSlide[id];
+      loadIframe(subTabsSlide[id]);
       history.pushState({ tab: 'tab4', subtab: id }, '', `?tab=tab4&subtab=${id}`);
     }
 
     function handleQuerySubtabClick(id) {
       document.querySelectorAll('#subtabs-tab2 button').forEach(btn => btn.classList.remove('active'));
       document.getElementById(id).classList.add('active');
-      iframe.src = subTabsQuery[id];
+      loadIframe(subTabsQuery[id]);
       history.pushState({ tab: 'tab2', subtab: id }, '', `?tab=tab2&subtab=${id}`);
     }
 
