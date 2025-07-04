@@ -8,38 +8,15 @@
   <style>
     body {
       margin: 0;
-      background: #f4f4f4;
       font-family: Arial, sans-serif;
+      background: #f4f4f4;
     }
-    .input-form {
-      max-width: 1275px;
-      margin: 0.5rem auto 0.5rem;
-      background: #fff;
-      padding: 1rem;
-      border-radius: 6px;
-      box-shadow: 0 0 8px rgba(0,0,0,0.1);
-    }
-    .input-form label {
-      display: block;
-      margin: 0.5rem 0 0.2rem;
-    }
-    .input-form input {
-      width: 100%;
-      padding: 6px;
-      font-size: 14px;
-    }
-    .input-form .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 1rem;
-    }
-
     #form-container {
       position: relative;
       width: 1275px;
       height: 1650px;
-      margin: 1rem auto 2rem;
-      background-color: white;
+      margin: 2rem auto;
+      background: white;
       box-shadow: 0 0 10px rgba(0,0,0,0.2);
     }
     #form-bg {
@@ -50,26 +27,25 @@
     }
     .field {
       position: absolute;
-      font-size: 13.5px;
-      color: #000;
-      font-weight: bold;
       z-index: 2;
+      font-size: 13.5px;
+      font-weight: bold;
+      color: #000;
       white-space: nowrap;
       padding: 0 4px;
     }
 
     #company              { top: 138px; left: 330px; }
     #name                 { top: 170px; left: 330px; }
-    #nationality          { top: 230px; left: 330px; }
-    #dob                  { top: 260px; left: 330px; }
-    #contact              { top: 290px; left: 330px; }
-    #emergency_name       { top: 320px; left: 330px; }
-
     #designation          { top: 170px; left: 955px; }
     #passport             { top: 200px; left: 955px; }
+    #nationality          { top: 230px; left: 330px; }
     #passport_expiry      { top: 230px; left: 955px; }
+    #dob                  { top: 260px; left: 330px; }
     #workpermit_expiry    { top: 260px; left: 955px; }
+    #contact              { top: 290px; left: 330px; }
     #cidb                 { top: 290px; left: 955px; }
+    #emergency_name       { top: 320px; left: 330px; }
     #emergency_contact    { top: 320px; left: 955px; }
 
     .btn-container {
@@ -78,7 +54,6 @@
       margin: 0 auto 1rem auto;
       padding-right: 1rem;
     }
-
     .btn.mini {
       padding: 4px 12px;
       font-size: 13px;
@@ -88,100 +63,83 @@
       border-radius: 4px;
       cursor: pointer;
     }
-
     .debug .field {
-      background-color: rgba(255, 255, 0, 0.3);
+      background-color: rgba(255,255,0,0.3);
       border: 1px dashed red;
     }
   </style>
 </head>
 <body>
 
-  <form class="input-form" onsubmit="event.preventDefault(); applyFormData();">
-    <div class="grid">
-      <div><label>Name</label><input name="name" /></div>
-      <div><label>Passport/IC No</label><input name="passport_no" /></div>
-      <div><label>Company</label><input name="company" /></div>
-      <div><label>Designation</label><input name="designation" /></div>
-      <div><label>Passport Expiry</label><input name="passport_exp" type="date" /></div>
-      <div><label>Nationality</label><input name="nationality" /></div>
-      <div><label>Work Permit Expiry</label><input name="workpermit_expiry" type="date" /></div>
-      <div><label>Date of Birth</label><input name="dob" type="date" /></div>
-      <div><label>CIDB Expiry</label><input name="cidb_expiry" type="date" /></div>
-      <div><label>Contact Number</label><input name="contact" /></div>
-      <div><label>Emergency Contact</label><input name="emergency_name" /></div>
-      <div><label>Emergency Number</label><input name="emergency_contact" /></div>
-    </div>
-    <div style="margin-top:1rem;text-align:right;">
-      <button class="btn mini" type="submit">🔍 Preview on Form</button>
-    </div>
-  </form>
-
   <div class="btn-container">
     <button class="btn mini" onclick="downloadPDF()">⬇️ Download</button>
   </div>
 
   <div id="form-container">
-    <img id="form-bg" src="safety_induction_form_bg.png" alt="Form background" />
+    <img id="form-bg" src="safety_induction_form_bg.png" alt="Background" />
 
     <!-- Overlay Fields -->
     <div class="field" id="company"></div>
     <div class="field" id="name"></div>
-    <div class="field" id="nationality"></div>
-    <div class="field" id="dob"></div>
-    <div class="field" id="contact"></div>
-    <div class="field" id="emergency_name"></div>
     <div class="field" id="designation"></div>
     <div class="field" id="passport"></div>
+    <div class="field" id="nationality"></div>
     <div class="field" id="passport_expiry"></div>
+    <div class="field" id="dob"></div>
     <div class="field" id="workpermit_expiry"></div>
+    <div class="field" id="contact"></div>
     <div class="field" id="cidb"></div>
+    <div class="field" id="emergency_name"></div>
     <div class="field" id="emergency_contact"></div>
   </div>
 
   <script>
-    function applyFormData() {
-      const form = document.querySelector('.input-form');
-      const data = Object.fromEntries(new FormData(form).entries());
+    function getQueryParams() {
+      const params = {};
+      window.location.search.substring(1).split("&").forEach(pair => {
+        const [k, v] = pair.split("=");
+        params[decodeURIComponent(k)] = decodeURIComponent(v || '');
+      });
+      return params;
+    }
 
+    function populateFields() {
+      const params = getQueryParams();
       const fieldMap = {
-        company: data.company,
-        name: data.name,
-        passport: data.passport_no || data.ic,
-        nationality: data.nationality,
-        dob: data.dob,
-        contact: data.contact,
-        emergency_name: data.emergency_name,
-        designation: data.designation,
-        passport_expiry: data.passport_exp,
-        workpermit_expiry: data.workpermit_expiry,
-        cidb: data.cidb_expiry,
-        emergency_contact: data.emergency_contact
+        company: params.company,
+        name: params.name,
+        designation: params.designation,
+        passport: params.passport_no || params.ic,
+        nationality: params.nationality,
+        passport_expiry: params.passport_exp,
+        dob: params.dob,
+        workpermit_expiry: params.workpermit_expiry,
+        contact: params.contact,
+        cidb: params.cidb_expiry,
+        emergency_name: params.emergency_name,
+        emergency_contact: params.emergency_contact
       };
 
-      for (const [key, val] of Object.entries(fieldMap)) {
-        const el = document.getElementById(key);
-        if (el) el.textContent = (val || '').trim();
+      for (const [id, value] of Object.entries(fieldMap)) {
+        const el = document.getElementById(id);
+        if (el && value) el.textContent = value.trim();
       }
     }
 
     function downloadPDF() {
-      const element = document.getElementById('form-container');
       const name = document.getElementById('name')?.textContent || 'Unknown';
-      const safeName = name
-        .trim()
-        .replace(/\s+/g, '_')
-        .replace(/[^\w\-]/g, '');
+      const safeName = name.trim().replace(/\s+/g, '_').replace(/[^\w\-]/g, '');
       const fileName = `EPG_Safety_Induction_Form_${safeName}.pdf`;
-
       html2pdf().set({
         margin: 0,
         filename: fileName,
         image: { type: 'jpeg', quality: 1 },
         html2canvas: { scale: 2, scrollY: 0 },
         jsPDF: { unit: 'px', format: [1275, 1650], orientation: 'portrait' }
-      }).from(element).save();
+      }).from(document.getElementById('form-container')).save();
     }
+
+    populateFields();
   </script>
 
 </body>
