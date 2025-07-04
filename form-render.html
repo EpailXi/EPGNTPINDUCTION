@@ -30,7 +30,7 @@
     }
     .field {
       position: absolute;
-      font-size: 15px;
+      font-size: 14px; /* ✅ Slightly smaller font */
       color: #000;
       font-weight: bold;
       z-index: 2;
@@ -38,14 +38,15 @@
       padding: 0 4px;
     }
 
-    /* ✅ Final field positions */
+    /* ✅ Final field placements */
     #company              { top: 140px; left: 330px; }
     #name                 { top: 172px; left: 330px; }
-    #passport             { top: 202px; left: 340px; }
+    #passport             { top: 198px; left: 345px; } /* 🎯 Perfect alignment */
     #nationality          { top: 232px; left: 330px; }
     #dob                  { top: 262px; left: 330px; }
     #contact              { top: 292px; left: 330px; }
     #emergency_name       { top: 322px; left: 330px; }
+
     #designation          { top: 172px; left: 955px; }
     #passport_expiry      { top: 202px; left: 955px; }
     #workpermit_expiry    { top: 232px; left: 955px; }
@@ -84,7 +85,7 @@
   <div id="form-container">
     <img id="form-bg" src="safety_induction_form_bg.png" alt="Form background" />
 
-    <!-- Fields -->
+    <!-- Overlay Fields -->
     <div class="field" id="company"></div>
     <div class="field" id="name"></div>
     <div class="field" id="passport"></div>
@@ -123,7 +124,7 @@
 
         let value = params[field];
 
-        // Fallbacks
+        // Smart fallbacks
         switch (field) {
           case 'passport':
             value = value || params['passport_no'] || params['ic'];
@@ -166,10 +167,10 @@
       document.getElementById("form-container").classList.toggle("debug");
     }
 
-    // ✅ Fill form on load
+    // ✅ Fill fields
     populateFields();
 
-    // ✅ Auto download when form loads with name field
+    // ✅ Auto download when name exists
     window.addEventListener('load', () => {
       const filled = document.getElementById('name')?.textContent?.trim();
       if (filled) {
