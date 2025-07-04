@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Safety Induction Form Overlay</title>
+  <title>EPG Safety Induction Form</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
@@ -30,7 +30,7 @@
     }
     .field {
       position: absolute;
-      font-size: 14px;
+      font-size: 13.5px;
       color: #000;
       font-weight: bold;
       z-index: 2;
@@ -38,20 +38,20 @@
       padding: 0 4px;
     }
 
-    /* ✅ Final positions */
-    #company              { top: 140px; left: 330px; }
-    #name                 { top: 172px; left: 330px; }
-    #nationality          { top: 232px; left: 330px; }
-    #dob                  { top: 262px; left: 330px; }
-    #contact              { top: 292px; left: 330px; }
-    #emergency_name       { top: 322px; left: 330px; }
+    /* 🎯 Final recalibrated positions */
+    #company              { top: 138px; left: 330px; }
+    #name                 { top: 170px; left: 330px; }
+    #nationality          { top: 230px; left: 330px; }
+    #dob                  { top: 260px; left: 330px; }
+    #contact              { top: 290px; left: 330px; }
+    #emergency_name       { top: 320px; left: 330px; }
 
-    #designation          { top: 172px; left: 955px; }
-    #passport             { top: 202px; left: 955px; }  /* ✅ Corrected: right column under designation */
-    #passport_expiry      { top: 232px; left: 955px; }
-    #workpermit_expiry    { top: 262px; left: 955px; }
-    #cidb                 { top: 292px; left: 955px; }
-    #emergency_contact    { top: 322px; left: 955px; }
+    #designation          { top: 170px; left: 955px; }
+    #passport             { top: 200px; left: 955px; }   /* ✅ Aligned in right column */
+    #passport_expiry      { top: 230px; left: 955px; }
+    #workpermit_expiry    { top: 260px; left: 955px; }
+    #cidb                 { top: 290px; left: 955px; }
+    #emergency_contact    { top: 320px; left: 955px; }
 
     .btn-container {
       text-align: right;
@@ -85,7 +85,7 @@
   <div id="form-container">
     <img id="form-bg" src="safety_induction_form_bg.png" alt="Form background" />
 
-    <!-- Field Overlays -->
+    <!-- Recalibrated Field Overlays -->
     <div class="field" id="company"></div>
     <div class="field" id="name"></div>
     <div class="field" id="nationality"></div>
@@ -93,7 +93,7 @@
     <div class="field" id="contact"></div>
     <div class="field" id="emergency_name"></div>
     <div class="field" id="designation"></div>
-    <div class="field" id="passport"></div> <!-- ✅ Now in right column -->
+    <div class="field" id="passport"></div>
     <div class="field" id="passport_expiry"></div>
     <div class="field" id="workpermit_expiry"></div>
     <div class="field" id="cidb"></div>
@@ -153,9 +153,13 @@
 
     function downloadPDF() {
       const element = document.getElementById('form-container');
+      const name = document.getElementById('name')?.textContent?.trim() || 'Unknown';
+      const safeName = name.replace(/\s+/g, '_').replace(/[^\w\-]/g, '');
+      const fileName = `EPG_Safety_Induction_Form_${safeName}.pdf`;
+
       html2pdf().set({
         margin: 0,
-        filename: 'Safety_Induction_Form_Filled.pdf',
+        filename: fileName,
         image: { type: 'jpeg', quality: 1 },
         html2canvas: { scale: 2, scrollY: 0 },
         jsPDF: { unit: 'px', format: [1275, 1650], orientation: 'portrait' }
