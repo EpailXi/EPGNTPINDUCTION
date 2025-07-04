@@ -29,7 +29,7 @@
     }
     .field {
       position: absolute;
-      font-size: 16px;
+      font-size: 15px;
       color: #000;
       font-weight: bold;
       z-index: 2;
@@ -37,19 +37,19 @@
       padding: 0 4px;
     }
 
-    /* ✅ Pixel-perfect corrected overlay positions */
-    #company              { top: 144px; left: 325px; }
-    #name                 { top: 177px; left: 325px; }
-    #passport             { top: 207px; left: 325px; }   /* Passport/IC Number */
-    #designation          { top: 177px; left: 990px; }
-    #passport_expiry      { top: 207px; left: 990px; }   /* Passport Expiry */
-    #nationality          { top: 237px; left: 325px; }
-    #workpermit_expiry    { top: 237px; left: 990px; }
-    #dob                  { top: 267px; left: 325px; }
-    #cidb                 { top: 267px; left: 990px; }
-    #contact              { top: 297px; left: 325px; }
-    #emergency_name       { top: 327px; left: 325px; }
-    #emergency_contact    { top: 327px; left: 990px; }
+    /* ✅ Final corrected overlay coordinates */
+    #company              { top: 140px; left: 330px; }
+    #name                 { top: 172px; left: 330px; }
+    #passport             { top: 202px; left: 340px; }
+    #designation          { top: 172px; left: 955px; }
+    #passport_expiry      { top: 202px; left: 955px; }
+    #nationality          { top: 232px; left: 330px; }
+    #workpermit_expiry    { top: 232px; left: 955px; }
+    #dob                  { top: 262px; left: 330px; }
+    #cidb                 { top: 262px; left: 955px; }
+    #contact              { top: 292px; left: 330px; }
+    #emergency_name       { top: 322px; left: 330px; }
+    #emergency_contact    { top: 322px; left: 955px; }
 
     .btn-container {
       text-align: center;
@@ -82,10 +82,10 @@
   <div id="form-container">
     <img id="form-bg" src="safety_induction_form_bg.png" alt="Form background" />
 
-    <!-- Overlay Fields -->
+    <!-- Final overlay fields -->
     <div class="field" id="company"></div>
     <div class="field" id="name"></div>
-    <div class="field" id="passport"></div> <!-- IC / Passport No -->
+    <div class="field" id="passport"></div>
     <div class="field" id="designation"></div>
     <div class="field" id="passport_expiry"></div>
     <div class="field" id="nationality"></div>
@@ -121,7 +121,7 @@
 
         let value = params[field];
 
-        // 🔁 Fallbacks for alternate field names
+        // 🔁 Smart fallbacks
         switch (field) {
           case 'passport':
             value = value || params['passport_no'] || params['ic'];
