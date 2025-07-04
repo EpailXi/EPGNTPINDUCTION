@@ -38,7 +38,7 @@
       padding: 0 4px;
     }
 
-    /* 🎯 Final recalibrated positions */
+    /* ✅ Final field positions */
     #company              { top: 138px; left: 330px; }
     #name                 { top: 170px; left: 330px; }
     #nationality          { top: 230px; left: 330px; }
@@ -47,7 +47,7 @@
     #emergency_name       { top: 320px; left: 330px; }
 
     #designation          { top: 170px; left: 955px; }
-    #passport             { top: 200px; left: 955px; }   /* ✅ Aligned in right column */
+    #passport             { top: 200px; left: 955px; } /* ✅ corrected */
     #passport_expiry      { top: 230px; left: 955px; }
     #workpermit_expiry    { top: 260px; left: 955px; }
     #cidb                 { top: 290px; left: 955px; }
@@ -85,7 +85,7 @@
   <div id="form-container">
     <img id="form-bg" src="safety_induction_form_bg.png" alt="Form background" />
 
-    <!-- Recalibrated Field Overlays -->
+    <!-- Field overlays -->
     <div class="field" id="company"></div>
     <div class="field" id="name"></div>
     <div class="field" id="nationality"></div>
@@ -153,8 +153,11 @@
 
     function downloadPDF() {
       const element = document.getElementById('form-container');
-      const name = document.getElementById('name')?.textContent?.trim() || 'Unknown';
-      const safeName = name.replace(/\s+/g, '_').replace(/[^\w\-]/g, '');
+      const name = document.getElementById('name')?.textContent || 'Unknown';
+      const safeName = name
+        .trim()
+        .replace(/\s+/g, '_')
+        .replace(/[^\w\-]/g, '');
       const fileName = `EPG_Safety_Induction_Form_${safeName}.pdf`;
 
       html2pdf().set({
