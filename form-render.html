@@ -11,19 +11,41 @@
       background: #f4f4f4;
       font-family: Arial, sans-serif;
     }
+    .input-form {
+      max-width: 1275px;
+      margin: 2rem auto 1rem;
+      background: #fff;
+      padding: 1rem;
+      border-radius: 6px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+    .input-form h2 {
+      margin-top: 0;
+    }
+    .input-form label {
+      display: block;
+      margin: 0.5rem 0 0.2rem;
+    }
+    .input-form input {
+      width: 100%;
+      padding: 6px;
+      font-size: 14px;
+    }
+    .input-form .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+    }
     #form-container {
       position: relative;
       width: 1275px;
       height: 1650px;
-      margin: 2rem auto;
+      margin: 1rem auto 2rem;
       background-color: white;
       box-shadow: 0 0 10px rgba(0,0,0,0.2);
-      overflow: hidden;
     }
     #form-bg {
       position: absolute;
-      top: 0;
-      left: 0;
       width: 1275px;
       height: 1650px;
       z-index: 1;
@@ -38,7 +60,6 @@
       padding: 0 4px;
     }
 
-    /* ✅ Final field positions */
     #company              { top: 138px; left: 330px; }
     #name                 { top: 170px; left: 330px; }
     #nationality          { top: 230px; left: 330px; }
@@ -47,7 +68,7 @@
     #emergency_name       { top: 320px; left: 330px; }
 
     #designation          { top: 170px; left: 955px; }
-    #passport             { top: 200px; left: 955px; } /* ✅ corrected */
+    #passport             { top: 200px; left: 955px; }
     #passport_expiry      { top: 230px; left: 955px; }
     #workpermit_expiry    { top: 260px; left: 955px; }
     #cidb                 { top: 290px; left: 955px; }
@@ -78,14 +99,34 @@
 </head>
 <body>
 
+  <form class="input-form" onsubmit="event.preventDefault(); applyFormData();">
+    <h2>Fill Induction Details</h2>
+    <div class="grid">
+      <div><label>Name</label><input name="name" /></div>
+      <div><label>Passport/IC No</label><input name="passport_no" /></div>
+      <div><label>Company</label><input name="company" /></div>
+      <div><label>Designation</label><input name="designation" /></div>
+      <div><label>Passport Expiry</label><input name="passport_exp" type="date" /></div>
+      <div><label>Nationality</label><input name="nationality" /></div>
+      <div><label>Work Permit Expiry</label><input name="workpermit_expiry" type="date" /></div>
+      <div><label>Date of Birth</label><input name="dob" type="date" /></div>
+      <div><label>CIDB Expiry</label><input name="cidb_expiry" type="date" /></div>
+      <div><label>Contact Number</label><input name="contact" /></div>
+      <div><label>Emergency Contact</label><input name="emergency_name" /></div>
+      <div><label>Emergency Number</label><input name="emergency_contact" /></div>
+    </div>
+    <div style="margin-top:1rem;text-align:right;">
+      <button class="btn mini" type="submit">🔍 Preview on Form</button>
+    </div>
+  </form>
+
   <div class="btn-container">
     <button class="btn mini" onclick="downloadPDF()">⬇️ Download</button>
   </div>
 
   <div id="form-container">
     <img id="form-bg" src="safety_induction_form_bg.png" alt="Form background" />
-
-    <!-- Field overlays -->
+    <!-- Overlay fields -->
     <div class="field" id="company"></div>
     <div class="field" id="name"></div>
     <div class="field" id="nationality"></div>
@@ -101,54 +142,29 @@
   </div>
 
   <script>
-    function getQueryParams() {
-      const params = {};
-      window.location.search.substring(1).split("&").forEach(pair => {
-        const [key, value] = pair.split("=");
-        params[decodeURIComponent(key)] = decodeURIComponent(value || '');
-      });
-      return params;
-    }
+    function applyFormData() {
+      const form = document.querySelector('.input-form');
+      const data = Object.fromEntries(new FormData(form).entries());
 
-    function populateFields() {
-      const params = getQueryParams();
-      const fields = [
-        'company', 'name', 'passport', 'nationality', 'dob', 'contact',
-        'emergency_name', 'designation', 'passport_expiry',
-        'workpermit_expiry', 'cidb', 'emergency_contact'
-      ];
+      const fieldMap = {
+        company: data.company,
+        name: data.name,
+        passport: data.passport_no || data.ic,
+        nationality: data.nationality,
+        dob: data.dob,
+        contact: data.contact,
+        emergency_name: data.emergency_name,
+        designation: data.designation,
+        passport_expiry: data.passport_exp,
+        workpermit_expiry: data.workpermit_expiry,
+        cidb: data.cidb_expiry,
+        emergency_contact: data.emergency_contact
+      };
 
-      fields.forEach(field => {
-        const el = document.getElementById(field);
-        if (!el) return;
-
-        let value = params[field];
-
-        switch (field) {
-          case 'passport':
-            value = value || params['passport_no'] || params['ic'];
-            break;
-          case 'cidb':
-            value = value || params['cidb_expiry'] || params['cidb_no'];
-            break;
-          case 'workpermit_expiry':
-            value = value || params['wp_expiry'] || params['permit_expiry'];
-            break;
-          case 'passport_expiry':
-            value = value || params['passportexp'] || params['passport_exp'];
-            break;
-          case 'contact':
-            value = value || params['phone'] || params['tel'];
-            break;
-          case 'emergency_contact':
-            value = value || params['emergency_phone'] || params['emergency_number'];
-            break;
-        }
-
-        if (value) {
-          el.textContent = value;
-        }
-      });
+      for (const [key, val] of Object.entries(fieldMap)) {
+        const el = document.getElementById(key);
+        if (el) el.textContent = (val || '').trim();
+      }
     }
 
     function downloadPDF() {
@@ -168,12 +184,6 @@
         jsPDF: { unit: 'px', format: [1275, 1650], orientation: 'portrait' }
       }).from(element).save();
     }
-
-    function toggleDebug() {
-      document.getElementById("form-container").classList.toggle("debug");
-    }
-
-    populateFields();
   </script>
 
 </body>
