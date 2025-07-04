@@ -37,12 +37,12 @@
       padding: 0 4px;
     }
 
-    /* ✅ Final pixel-perfect overlay coordinates */
+    /* ✅ Pixel-perfect corrected overlay positions */
     #company              { top: 144px; left: 325px; }
     #name                 { top: 177px; left: 325px; }
-    #passport             { top: 207px; left: 325px; }
+    #passport             { top: 207px; left: 325px; }   /* Passport/IC Number */
     #designation          { top: 177px; left: 990px; }
-    #passport_expiry      { top: 207px; left: 990px; }
+    #passport_expiry      { top: 207px; left: 990px; }   /* Passport Expiry */
     #nationality          { top: 237px; left: 325px; }
     #workpermit_expiry    { top: 237px; left: 990px; }
     #dob                  { top: 267px; left: 325px; }
@@ -82,10 +82,10 @@
   <div id="form-container">
     <img id="form-bg" src="safety_induction_form_bg.png" alt="Form background" />
 
-    <!-- Overlay Fields (block field removed) -->
+    <!-- Overlay Fields -->
     <div class="field" id="company"></div>
     <div class="field" id="name"></div>
-    <div class="field" id="passport"></div>
+    <div class="field" id="passport"></div> <!-- IC / Passport No -->
     <div class="field" id="designation"></div>
     <div class="field" id="passport_expiry"></div>
     <div class="field" id="nationality"></div>
