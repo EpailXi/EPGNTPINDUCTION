@@ -2,32 +2,55 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Filled Safety Induction Form</title>
+  <title>Safety Induction Form Overlay</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
       background: #f4f4f4;
+      font-family: Arial, sans-serif;
     }
     #form-container {
       position: relative;
-      width: 1000px;
+      width: 1275px;
+      height: 1650px;
       margin: 2rem auto;
-      background: white;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      background-color: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
     }
     #form-bg {
-      width: 100%;
-      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1275px;
+      height: 1650px;
+      z-index: 1;
     }
     .field {
       position: absolute;
-      font-size: 14px;
+      font-size: 16px;
       color: #000;
       font-weight: bold;
+      z-index: 2;
+      white-space: nowrap;
     }
+
+    /* Position each field precisely (tuned for 1275 x 1650 image) */
+    #company              { top: 148px; left: 295px; }
+    #block                { top: 148px; left: 960px; }
+    #name                 { top: 208px; left: 295px; }
+    #passport             { top: 238px; left: 295px; }
+    #designation          { top: 208px; left: 960px; }
+    #passport_expiry      { top: 238px; left: 960px; }
+    #nationality          { top: 268px; left: 295px; }
+    #workpermit_expiry    { top: 268px; left: 960px; }
+    #dob                  { top: 298px; left: 295px; }
+    #cidb                 { top: 298px; left: 960px; }
+    #contact              { top: 328px; left: 295px; }
+    #emergency_name       { top: 358px; left: 295px; }
+    #emergency_contact    { top: 358px; left: 960px; }
+
     .btn-container {
       text-align: center;
       margin-bottom: 2rem;
@@ -41,79 +64,65 @@
       font-size: 16px;
       cursor: pointer;
     }
-
-    /* Example positions (adjust to your real background layout!) */
-    #name       { top: 180px; left: 150px; }
-    #passport   { top: 210px; left: 150px; }
-    #designation{ top: 180px; left: 600px; }
-    #nationality{ top: 240px; left: 150px; }
-    #dob        { top: 270px; left: 150px; }
-    #cidb       { top: 270px; left: 600px; }
-    #contact    { top: 300px; left: 150px; }
-    #emergency_name  { top: 330px; left: 150px; }
-    #emergency_contact { top: 330px; left: 600px; }
-    #company    { top: 150px; left: 150px; }
-    #block      { top: 150px; left: 600px; }
-    #passport_expiry { top: 240px; left: 600px; }
-    #workpermit_expiry { top: 300px; left: 600px; }
   </style>
 </head>
 <body>
 
-<div class="btn-container">
-  <button class="btn" onclick="downloadPDF()">📥 Download Filled Form</button>
-</div>
+  <div class="btn-container">
+    <button class="btn" onclick="downloadPDF()">📥 Download PDF</button>
+  </div>
 
-<div id="form-container">
-  <img src="safety_induction_form_bg.png" id="form-bg" alt="Form Background" />
+  <div id="form-container">
+    <img id="form-bg" src="safety_induction_form_bg.png" alt="Form background" />
 
-  <div class="field" id="company"></div>
-  <div class="field" id="block"></div>
-  <div class="field" id="name"></div>
-  <div class="field" id="passport"></div>
-  <div class="field" id="designation"></div>
-  <div class="field" id="nationality"></div>
-  <div class="field" id="dob"></div>
-  <div class="field" id="cidb"></div>
-  <div class="field" id="contact"></div>
-  <div class="field" id="emergency_name"></div>
-  <div class="field" id="emergency_contact"></div>
-  <div class="field" id="passport_expiry"></div>
-  <div class="field" id="workpermit_expiry"></div>
-</div>
+    <!-- Overlay Fields -->
+    <div class="field" id="company"></div>
+    <div class="field" id="block"></div>
+    <div class="field" id="name"></div>
+    <div class="field" id="passport"></div>
+    <div class="field" id="designation"></div>
+    <div class="field" id="passport_expiry"></div>
+    <div class="field" id="nationality"></div>
+    <div class="field" id="workpermit_expiry"></div>
+    <div class="field" id="dob"></div>
+    <div class="field" id="cidb"></div>
+    <div class="field" id="contact"></div>
+    <div class="field" id="emergency_name"></div>
+    <div class="field" id="emergency_contact"></div>
+  </div>
 
-<script>
-  function getQueryParams() {
-    const params = {};
-    window.location.search.substring(1).split("&").forEach(pair => {
-      const [key, value] = pair.split("=");
-      params[decodeURIComponent(key)] = decodeURIComponent(value || '');
-    });
-    return params;
-  }
+  <script>
+    function getQueryParams() {
+      const params = {};
+      window.location.search.substring(1).split("&").forEach(pair => {
+        const [key, value] = pair.split("=");
+        params[decodeURIComponent(key)] = decodeURIComponent(value || '');
+      });
+      return params;
+    }
 
-  function populateFields() {
-    const params = getQueryParams();
-    const fields = [
-      'company', 'block', 'name', 'passport', 'designation',
-      'nationality', 'dob', 'cidb', 'contact',
-      'emergency_name', 'emergency_contact', 'passport_expiry', 'workpermit_expiry'
-    ];
-    fields.forEach(field => {
-      const el = document.getElementById(field);
-      if (el && params[field]) {
-        el.textContent = params[field];
-      }
-    });
-  }
+    function populateFields() {
+      const params = getQueryParams();
+      const fields = [
+        'company', 'block', 'name', 'passport', 'designation',
+        'passport_expiry', 'nationality', 'workpermit_expiry',
+        'dob', 'cidb', 'contact', 'emergency_name', 'emergency_contact'
+      ];
+      fields.forEach(field => {
+        const el = document.getElementById(field);
+        if (el && params[field]) {
+          el.textContent = params[field];
+        }
+      });
+    }
 
-  function downloadPDF() {
-    const element = document.getElementById('form-container');
-    html2pdf().from(element).save('Safety_Induction_Form_Filled.pdf');
-  }
+    function downloadPDF() {
+      const element = document.getElementById('form-container');
+      html2pdf().from(element).save('Safety_Induction_Form_Filled.pdf');
+    }
 
-  populateFields();
-</script>
+    populateFields();
+  </script>
 
 </body>
 </html>
