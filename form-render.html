@@ -8,8 +8,8 @@
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
       background: #f4f4f4;
+      font-family: Arial, sans-serif;
     }
     #form-container {
       position: relative;
@@ -35,6 +35,7 @@
       padding: 0 4px;
     }
 
+    /* ✅ Updated coordinates */
     #company              { top: 138px; left: 330px; }
     #name                 { top: 170px; left: 330px; }
     #designation          { top: 170px; left: 955px; }
@@ -54,6 +55,7 @@
       margin: 0 auto 1rem auto;
       padding-right: 1rem;
     }
+
     .btn.mini {
       padding: 4px 12px;
       font-size: 13px;
@@ -62,10 +64,6 @@
       border: none;
       border-radius: 4px;
       cursor: pointer;
-    }
-    .debug .field {
-      background-color: rgba(255,255,0,0.3);
-      border: 1px dashed red;
     }
   </style>
 </head>
@@ -76,7 +74,7 @@
   </div>
 
   <div id="form-container">
-    <img id="form-bg" src="safety_induction_form_bg.png" alt="Background" />
+    <img id="form-bg" src="safety_induction_form_bg.png" alt="Form background" />
 
     <!-- Overlay Fields -->
     <div class="field" id="company"></div>
@@ -130,6 +128,7 @@
       const name = document.getElementById('name')?.textContent || 'Unknown';
       const safeName = name.trim().replace(/\s+/g, '_').replace(/[^\w\-]/g, '');
       const fileName = `EPG_Safety_Induction_Form_${safeName}.pdf`;
+
       html2pdf().set({
         margin: 0,
         filename: fileName,
