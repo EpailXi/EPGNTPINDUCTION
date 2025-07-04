@@ -38,7 +38,7 @@
       padding: 0 4px;
     }
 
-    /* 🧭 Accurate overlay coordinates */
+    /* ✅ Final field positions */
     #company              { top: 140px; left: 330px; }
     #name                 { top: 172px; left: 330px; }
     #passport             { top: 202px; left: 340px; }
@@ -46,7 +46,6 @@
     #dob                  { top: 262px; left: 330px; }
     #contact              { top: 292px; left: 330px; }
     #emergency_name       { top: 322px; left: 330px; }
-
     #designation          { top: 172px; left: 955px; }
     #passport_expiry      { top: 202px; left: 955px; }
     #workpermit_expiry    { top: 232px; left: 955px; }
@@ -54,18 +53,20 @@
     #emergency_contact    { top: 322px; left: 955px; }
 
     .btn-container {
-      text-align: center;
-      margin-bottom: 1.5rem;
+      text-align: right;
+      width: 1275px;
+      margin: 0 auto 1rem auto;
+      padding-right: 1rem;
     }
-    .btn {
-      padding: 0.75rem 1.5rem;
-      background: #007BFF;
+
+    .btn.mini {
+      padding: 4px 12px;
+      font-size: 13px;
+      background-color: #007BFF;
       color: white;
       border: none;
-      border-radius: 5px;
-      font-size: 16px;
+      border-radius: 4px;
       cursor: pointer;
-      margin: 0 1rem;
     }
 
     .debug .field {
@@ -77,14 +78,13 @@
 <body>
 
   <div class="btn-container">
-    <button class="btn" onclick="downloadPDF()">📥 Download PDF</button>
-    <button class="btn" onclick="toggleDebug()">🧪 Toggle Debug</button>
+    <button class="btn mini" onclick="downloadPDF()">⬇️ Download</button>
   </div>
 
   <div id="form-container">
     <img id="form-bg" src="safety_induction_form_bg.png" alt="Form background" />
 
-    <!-- Fields with corrected placement -->
+    <!-- Fields -->
     <div class="field" id="company"></div>
     <div class="field" id="name"></div>
     <div class="field" id="passport"></div>
@@ -123,7 +123,7 @@
 
         let value = params[field];
 
-        // Smart fallbacks
+        // Fallbacks
         switch (field) {
           case 'passport':
             value = value || params['passport_no'] || params['ic'];
@@ -166,7 +166,18 @@
       document.getElementById("form-container").classList.toggle("debug");
     }
 
+    // ✅ Fill form on load
     populateFields();
+
+    // ✅ Auto download when form loads with name field
+    window.addEventListener('load', () => {
+      const filled = document.getElementById('name')?.textContent?.trim();
+      if (filled) {
+        setTimeout(() => {
+          downloadPDF();
+        }, 800);
+      }
+    });
   </script>
 
 </body>
