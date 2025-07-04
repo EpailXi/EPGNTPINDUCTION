@@ -13,14 +13,11 @@
     }
     .input-form {
       max-width: 1275px;
-      margin: 2rem auto 1rem;
+      margin: 0.5rem auto 0.5rem;
       background: #fff;
       padding: 1rem;
       border-radius: 6px;
       box-shadow: 0 0 8px rgba(0,0,0,0.1);
-    }
-    .input-form h2 {
-      margin-top: 0;
     }
     .input-form label {
       display: block;
@@ -36,6 +33,7 @@
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
       gap: 1rem;
     }
+
     #form-container {
       position: relative;
       width: 1275px;
@@ -100,7 +98,6 @@
 <body>
 
   <form class="input-form" onsubmit="event.preventDefault(); applyFormData();">
-    <h2>Fill Induction Details</h2>
     <div class="grid">
       <div><label>Name</label><input name="name" /></div>
       <div><label>Passport/IC No</label><input name="passport_no" /></div>
@@ -126,7 +123,8 @@
 
   <div id="form-container">
     <img id="form-bg" src="safety_induction_form_bg.png" alt="Form background" />
-    <!-- Overlay fields -->
+
+    <!-- Overlay Fields -->
     <div class="field" id="company"></div>
     <div class="field" id="name"></div>
     <div class="field" id="nationality"></div>
