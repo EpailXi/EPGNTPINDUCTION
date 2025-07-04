@@ -30,7 +30,7 @@
     }
     .field {
       position: absolute;
-      font-size: 14px; /* ✅ Slightly smaller font */
+      font-size: 14px;
       color: #000;
       font-weight: bold;
       z-index: 2;
@@ -38,10 +38,10 @@
       padding: 0 4px;
     }
 
-    /* ✅ Final field placements */
+    /* ✅ Correct field placements */
     #company              { top: 140px; left: 330px; }
     #name                 { top: 172px; left: 330px; }
-    #passport             { top: 198px; left: 345px; } 
+    #passport             { top: 202px; left: 340px; } /* Fixed left column */
     #nationality          { top: 232px; left: 330px; }
     #dob                  { top: 262px; left: 330px; }
     #contact              { top: 292px; left: 330px; }
@@ -88,7 +88,7 @@
     <!-- Overlay Fields -->
     <div class="field" id="company"></div>
     <div class="field" id="name"></div>
-    <div class="field" id="passport"></div>
+    <div class="field" id="passport"></div> <!-- ✅ Fixed here -->
     <div class="field" id="nationality"></div>
     <div class="field" id="dob"></div>
     <div class="field" id="contact"></div>
@@ -124,7 +124,7 @@
 
         let value = params[field];
 
-        // Smart fallbacks
+        // Fallback logic
         switch (field) {
           case 'passport':
             value = value || params['passport_no'] || params['ic'];
@@ -167,18 +167,9 @@
       document.getElementById("form-container").classList.toggle("debug");
     }
 
-    // ✅ Fill fields
     populateFields();
 
-    // ✅ Auto download when name exists
-    window.addEventListener('load', () => {
-      const filled = document.getElementById('name')?.textContent?.trim();
-      if (filled) {
-        setTimeout(() => {
-          downloadPDF();
-        }, 800);
-      }
-    });
+    // ✅ Auto-download disabled for now
   </script>
 
 </body>
