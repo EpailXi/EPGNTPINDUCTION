@@ -37,7 +37,7 @@
       padding: 0 4px;
     }
 
-    /* ✅ Final overlay positions (based on real form image) */
+    /* ✅ Final pixel-perfect overlay coordinates */
     #company              { top: 144px; left: 325px; }
     #name                 { top: 177px; left: 325px; }
     #passport             { top: 207px; left: 325px; }
@@ -82,7 +82,7 @@
   <div id="form-container">
     <img id="form-bg" src="safety_induction_form_bg.png" alt="Form background" />
 
-    <!-- Overlay Fields (block removed) -->
+    <!-- Overlay Fields (block field removed) -->
     <div class="field" id="company"></div>
     <div class="field" id="name"></div>
     <div class="field" id="passport"></div>
@@ -114,10 +114,37 @@
         'passport_expiry', 'nationality', 'workpermit_expiry',
         'dob', 'cidb', 'contact', 'emergency_name', 'emergency_contact'
       ];
+
       fields.forEach(field => {
         const el = document.getElementById(field);
-        if (el && params[field]) {
-          el.textContent = params[field];
+        if (!el) return;
+
+        let value = params[field];
+
+        // 🔁 Fallbacks for alternate field names
+        switch (field) {
+          case 'passport':
+            value = value || params['passport_no'] || params['ic'];
+            break;
+          case 'cidb':
+            value = value || params['cidb_expiry'] || params['cidb_no'];
+            break;
+          case 'workpermit_expiry':
+            value = value || params['wp_expiry'] || params['permit_expiry'];
+            break;
+          case 'passport_expiry':
+            value = value || params['passportexp'] || params['passport_exp'];
+            break;
+          case 'contact':
+            value = value || params['phone'] || params['tel'];
+            break;
+          case 'emergency_contact':
+            value = value || params['emergency_phone'] || params['emergency_number'];
+            break;
+        }
+
+        if (value) {
+          el.textContent = value;
         }
       });
     }
