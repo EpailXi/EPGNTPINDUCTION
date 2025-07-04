@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Filled Safety Induction Form</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+    }
+    #form-container {
+      position: relative;
+      width: 1000px;
+      margin: 2rem auto;
+      background: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    #form-bg {
+      width: 100%;
+      display: block;
+    }
+    .field {
+      position: absolute;
+      font-size: 14px;
+      color: #000;
+      font-weight: bold;
+    }
+    .btn-container {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .btn {
+      padding: 0.75rem 1.5rem;
+      background: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    /* Example positions (adjust to your real background layout!) */
+    #name       { top: 180px; left: 150px; }
+    #passport   { top: 210px; left: 150px; }
+    #designation{ top: 180px; left: 600px; }
+    #nationality{ top: 240px; left: 150px; }
+    #dob        { top: 270px; left: 150px; }
+    #cidb       { top: 270px; left: 600px; }
+    #contact    { top: 300px; left: 150px; }
+    #emergency_name  { top: 330px; left: 150px; }
+    #emergency_contact { top: 330px; left: 600px; }
+    #company    { top: 150px; left: 150px; }
+    #block      { top: 150px; left: 600px; }
+    #passport_expiry { top: 240px; left: 600px; }
+    #workpermit_expiry { top: 300px; left: 600px; }
+  </style>
+</head>
+<body>
+
+<div class="btn-container">
+  <button class="btn" onclick="downloadPDF()">📥 Download Filled Form</button>
+</div>
+
+<div id="form-container">
+  <img src="safety_induction_form_bg.png" id="form-bg" alt="Form Background" />
+
+  <div class="field" id="company"></div>
+  <div class="field" id="block"></div>
+  <div class="field" id="name"></div>
+  <div class="field" id="passport"></div>
+  <div class="field" id="designation"></div>
+  <div class="field" id="nationality"></div>
+  <div class="field" id="dob"></div>
+  <div class="field" id="cidb"></div>
+  <div class="field" id="contact"></div>
+  <div class="field" id="emergency_name"></div>
+  <div class="field" id="emergency_contact"></div>
+  <div class="field" id="passport_expiry"></div>
+  <div class="field" id="workpermit_expiry"></div>
+</div>
+
+<script>
+  function getQueryParams() {
+    const params = {};
+    window.location.search.substring(1).split("&").forEach(pair => {
+      const [key, value] = pair.split("=");
+      params[decodeURIComponent(key)] = decodeURIComponent(value || '');
+    });
+    return params;
+  }
+
+  function populateFields() {
+    const params = getQueryParams();
+    const fields = [
+      'company', 'block', 'name', 'passport', 'designation',
+      'nationality', 'dob', 'cidb', 'contact',
+      'emergency_name', 'emergency_contact', 'passport_expiry', 'workpermit_expiry'
+    ];
+    fields.forEach(field => {
+      const el = document.getElementById(field);
+      if (el && params[field]) {
+        el.textContent = params[field];
+      }
+    });
+  }
+
+  function downloadPDF() {
+    const element = document.getElementById('form-container');
+    html2pdf().from(element).save('Safety_Induction_Form_Filled.pdf');
+  }
+
+  populateFields();
+</script>
+
+</body>
+</html>
