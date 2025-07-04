@@ -34,26 +34,33 @@
       font-weight: bold;
       z-index: 2;
       white-space: nowrap;
+      padding: 0 4px;
     }
 
-    /* ✅ Corrected field coordinates for 1275 x 1650 PNG layout */
-    #company              { top: 132px; left: 285px; }
-    #block                { top: 132px; left: 875px; }
-    #name                 { top: 165px; left: 285px; }
-    #passport             { top: 196px; left: 285px; }
-    #designation          { top: 165px; left: 875px; }
-    #passport_expiry      { top: 196px; left: 875px; }
-    #nationality          { top: 228px; left: 285px; }
-    #workpermit_expiry    { top: 228px; left: 875px; }
-    #dob                  { top: 260px; left: 285px; }
-    #cidb                 { top: 260px; left: 875px; }
-    #contact              { top: 292px; left: 285px; }
-    #emergency_name       { top: 324px; left: 285px; }
-    #emergency_contact    { top: 324px; left: 875px; }
+    /* ✅ Corrected field positions for 1275 × 1650 PNG */
+    #company              { top: 144px; left: 325px; }
+    #block                { top: 144px; left: 990px; }
+    #name                 { top: 177px; left: 325px; }
+    #passport             { top: 207px; left: 325px; }
+    #designation          { top: 177px; left: 990px; }
+    #passport_expiry      { top: 207px; left: 990px; }
+    #nationality          { top: 237px; left: 325px; }
+    #workpermit_expiry    { top: 237px; left: 990px; }
+    #dob                  { top: 267px; left: 325px; }
+    #cidb                 { top: 267px; left: 990px; }
+    #contact              { top: 297px; left: 325px; }
+    #emergency_name       { top: 327px; left: 325px; }
+    #emergency_contact    { top: 327px; left: 990px; }
+
+    /* Optional debug (enable to outline positions) */
+    .debug .field {
+      background-color: rgba(255, 255, 0, 0.3);
+      border: 1px dashed red;
+    }
 
     .btn-container {
       text-align: center;
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
     }
     .btn {
       padding: 0.75rem 1.5rem;
@@ -63,6 +70,7 @@
       border-radius: 5px;
       font-size: 16px;
       cursor: pointer;
+      margin: 0 1rem;
     }
   </style>
 </head>
@@ -70,6 +78,7 @@
 
   <div class="btn-container">
     <button class="btn" onclick="downloadPDF()">📥 Download PDF</button>
+    <button class="btn" onclick="toggleDebug()">🧪 Toggle Debug</button>
   </div>
 
   <div id="form-container">
@@ -119,6 +128,10 @@
     function downloadPDF() {
       const element = document.getElementById('form-container');
       html2pdf().from(element).save('Safety_Induction_Form_Filled.pdf');
+    }
+
+    function toggleDebug() {
+      document.getElementById("form-container").classList.toggle("debug");
     }
 
     populateFields();
