@@ -101,39 +101,54 @@
     <button id="tab4">📊 Induction Slide 幻灯片</button>
   </div>
 
-  <div class="subnav" id="subtabs">
+  <!-- Subtabs for Query -->
+  <div class="subnav" id="subtabs-tab2">
+    <button id="query-subtab1" class="active">👤 Personnel Search 人员搜索</button>
+    <button id="query-subtab2">⛑ Helmet Number (EPG ONLY)</button>
+  </div>
+
+  <!-- Subtabs for Induction Slide -->
+  <div class="subnav" id="subtabs-tab4">
     <button id="subtab1" class="active">🏗 Block H</button>
   </div>
 
   <main>
-    <iframe id="frame" src="https://twswzvv3ark.sg.feishu.cn/share/base/form/shrlgPuhdE1BMJp9m35UCE1P2db" title="EPG Induction Form"></iframe>
+    <iframe id="frame" src="https://twswzvv3ark.sg.feishu.cn/share/base/form/shrlgPuhdE1BMJp9m35UCE1P2db" title="EPG Induction Frame"></iframe>
   </main>
 
   <script>
     const mainTabs = {
       tab1: 'https://twswzvv3ark.sg.feishu.cn/share/base/form/shrlgPuhdE1BMJp9m35UCE1P2db',
-      tab2: 'https://twswzvv3ark.sg.feishu.cn/share/base/query/shrlg51LfM6trGZoyggk5RhyiWy',
+      tab2: '', // Placeholder — will be overridden by subtabs
       tab3: 'https://twswzvv3ark.sg.feishu.cn/share/base/view/shrlgUmnr3LVMDLPgijDJCwnAXc'
     };
 
-    const subTabs = {
+    const subTabsSlide = {
       subtab1: 'https://twswzvv3ark.sg.feishu.cn/slides/OzJisWFv9lsTlFdx2XflBdl5gKf?from=from_copylink'
     };
 
+    const subTabsQuery = {
+      'query-subtab1': 'https://twswzvv3ark.sg.feishu.cn/share/base/query/shrlg51LfM6trGZoyggk5RhyiWy',
+      'query-subtab2': 'https://twswzvv3ark.sg.feishu.cn/share/base/query/shrlgyzxakBumb2qTqfjiprP2zk'
+    };
+
     const iframe = document.getElementById('frame');
-    const subtabs = document.getElementById('subtabs');
 
     function handleTabClick(id) {
       document.querySelectorAll('.tab-container button').forEach(btn => btn.classList.remove('active'));
       document.getElementById(id).classList.add('active');
 
-      if (id === 'tab4') {
-        subtabs.style.display = 'flex';
-        document.getElementById('subtab1').click();
-      } else if (id === 'tab2') {
-        window.open(mainTabs.tab2, '_blank');
+      // Hide all subtabs
+      document.getElementById('subtabs-tab2').style.display = 'none';
+      document.getElementById('subtabs-tab4').style.display = 'none';
+
+      if (id === 'tab2') {
+        document.getElementById('subtabs-tab2').style.display = 'flex';
+        handleQuerySubtabClick('query-subtab1');
+      } else if (id === 'tab4') {
+        document.getElementById('subtabs-tab4').style.display = 'flex';
+        handleSubtabClick('subtab1');
       } else {
-        subtabs.style.display = 'none';
         iframe.src = mainTabs[id];
       }
 
@@ -141,18 +156,29 @@
     }
 
     function handleSubtabClick(id) {
-      document.querySelectorAll('.subnav button').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('#subtabs-tab4 button').forEach(btn => btn.classList.remove('active'));
       document.getElementById(id).classList.add('active');
-      iframe.src = subTabs[id];
+      iframe.src = subTabsSlide[id];
       history.pushState({ tab: 'tab4', subtab: id }, '', `?tab=tab4&subtab=${id}`);
+    }
+
+    function handleQuerySubtabClick(id) {
+      document.querySelectorAll('#subtabs-tab2 button').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      iframe.src = subTabsQuery[id];
+      history.pushState({ tab: 'tab2', subtab: id }, '', `?tab=tab2&subtab=${id}`);
     }
 
     document.querySelectorAll('.tab-container button').forEach(btn => {
       btn.addEventListener('click', () => handleTabClick(btn.id));
     });
 
-    document.querySelectorAll('.subnav button').forEach(btn => {
+    document.querySelectorAll('#subtabs-tab4 button').forEach(btn => {
       btn.addEventListener('click', () => handleSubtabClick(btn.id));
+    });
+
+    document.querySelectorAll('#subtabs-tab2 button').forEach(btn => {
+      btn.addEventListener('click', () => handleQuerySubtabClick(btn.id));
     });
 
     window.addEventListener('popstate', (event) => {
@@ -160,7 +186,14 @@
         handleTabClick(event.state.tab);
       }
       if (event.state?.subtab) {
-        document.getElementById(event.state.subtab)?.click();
+        const subtabBtn = document.getElementById(event.state.subtab);
+        if (subtabBtn) {
+          if (event.state.tab === 'tab2') {
+            handleQuerySubtabClick(event.state.subtab);
+          } else if (event.state.tab === 'tab4') {
+            handleSubtabClick(event.state.subtab);
+          }
+        }
       }
     });
 
@@ -169,26 +202,22 @@
       const tab = params.get('tab');
       const subtab = params.get('subtab');
 
-      // Handle valid tabs
       if (tab && document.getElementById(tab)) {
         handleTabClick(tab);
-        
-        // Special handling for Induction Slide tab
-        if (tab === 'tab4') {
-          if (subtab && document.getElementById(subtab)) {
-            handleSubtabClick(subtab);
-          } else {
-            handleSubtabClick('subtab1');
-          }
+        if (tab === 'tab4' && subtab && document.getElementById(subtab)) {
+          handleSubtabClick(subtab);
+        } else if (tab === 'tab2' && subtab && document.getElementById(subtab)) {
+          handleQuerySubtabClick(subtab);
         }
-      } 
-      // Handle direct subtab access
-      else if (subtab && document.getElementById(subtab)) {
-        handleTabClick('tab4');
-        handleSubtabClick(subtab);
-      }
-      // Default to first tab
-      else {
+      } else if (subtab && document.getElementById(subtab)) {
+        if (subtab.startsWith('query-')) {
+          handleTabClick('tab2');
+          handleQuerySubtabClick(subtab);
+        } else {
+          handleTabClick('tab4');
+          handleSubtabClick(subtab);
+        }
+      } else {
         handleTabClick('tab1');
       }
     });
