@@ -13,48 +13,49 @@
     }
     #form-container {
       position: relative;
-      width: 1275px;
-      height: 1650px;
-      margin: 0 auto; /* ⬅️ Removed top margin */
+      width: 794px;  /* A4 width */
+      height: 1123px; /* A4 height */
+      margin: 0 auto;
       background: white;
       box-shadow: 0 0 10px rgba(0,0,0,0.2);
     }
     #form-bg {
       position: absolute;
-      width: 1275px;
-      height: 1650px;
+      width: 794px;
+      height: 1123px;
       z-index: 1;
     }
     .field {
       position: absolute;
       z-index: 2;
-      font-size: 13.5px;
+      font-size: 12px;
       font-weight: bold;
       color: #000;
       white-space: nowrap;
       padding: 0 4px;
     }
 
-    /* Aligned just after colons */
-    #company              { top: 138px; left: 370px; }
-    #name                 { top: 170px; left: 370px; }
-    #designation          { top: 170px; left: 1010px; }
-    #passport             { top: 200px; left: 1010px; }
-    #nationality          { top: 230px; left: 370px; }
-    #passport_expiry      { top: 230px; left: 1010px; }
-    #dob                  { top: 260px; left: 370px; }
-    #workpermit_expiry    { top: 260px; left: 1010px; }
-    #contact              { top: 290px; left: 370px; }
-    #cidb                 { top: 290px; left: 1010px; }
-    #emergency_name       { top: 320px; left: 370px; }
-    #emergency_contact    { top: 320px; left: 1010px; }
+    /* Adjusted positions scaled for A4 from 1275x1650 */
+    #company              { top: 87px; left: 244px; }
+    #name                 { top: 109px; left: 244px; }
+    #designation          { top: 109px; left: 638px; }
+    #passport             { top: 130px; left: 638px; }
+    #nationality          { top: 152px; left: 244px; }
+    #passport_expiry      { top: 152px; left: 638px; }
+    #dob                  { top: 174px; left: 244px; }
+    #workpermit_expiry    { top: 174px; left: 638px; }
+    #contact              { top: 196px; left: 244px; }
+    #cidb                 { top: 196px; left: 638px; }
+    #emergency_name       { top: 218px; left: 244px; }
+    #emergency_contact    { top: 218px; left: 638px; }
 
     .btn-container {
       text-align: right;
-      width: 1275px;
-      margin: 1rem auto 0.5rem auto;  /* Top aligned + spacing below */
+      width: 794px;
+      margin: 1rem auto 0.5rem auto;
       padding-right: 1rem;
     }
+
     .btn.mini {
       padding: 4px 12px;
       font-size: 13px;
@@ -64,6 +65,19 @@
       border-radius: 4px;
       cursor: pointer;
       margin-left: 0.5rem;
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+      .btn-container {
+        display: none;
+      }
+      #form-container {
+        box-shadow: none;
+        margin: 0;
+      }
     }
   </style>
 </head>
@@ -77,7 +91,6 @@
   <div id="form-container">
     <img id="form-bg" src="safety_induction_form_bg.png" alt="Form background" />
 
-    <!-- Overlay Fields -->
     <div class="field" id="company"></div>
     <div class="field" id="name"></div>
     <div class="field" id="designation"></div>
@@ -136,7 +149,7 @@
         pagebreak: { mode: 'avoid-all' },
         image: { type: 'jpeg', quality: 1 },
         html2canvas: { scale: 2, scrollY: 0 },
-        jsPDF: { unit: 'px', format: [1275, 1650], orientation: 'portrait' }
+        jsPDF: { unit: 'px', format: [794, 1123], orientation: 'portrait' }
       }).from(document.getElementById('form-container')).save();
     }
 
