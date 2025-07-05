@@ -13,7 +13,7 @@
     }
     #form-container {
       position: relative;
-      width: 794px;  /* A4 width */
+      width: 794px;   /* A4 width */
       height: 1123px; /* A4 height */
       margin: 0 auto;
       background: white;
@@ -35,8 +35,8 @@
       padding: 0 4px;
     }
 
-    /* Adjusted positions scaled for A4 from 1275x1650 */
-    #company              { top: 87px; left: 244px; }
+    /* Precisely aligned after colon, on resized image */
+    #company              { top: 87px;  left: 244px; }
     #name                 { top: 109px; left: 244px; }
     #designation          { top: 109px; left: 638px; }
     #passport             { top: 130px; left: 638px; }
@@ -55,7 +55,6 @@
       margin: 1rem auto 0.5rem auto;
       padding-right: 1rem;
     }
-
     .btn.mini {
       padding: 4px 12px;
       font-size: 13px;
@@ -66,18 +65,9 @@
       cursor: pointer;
       margin-left: 0.5rem;
     }
-
     @media print {
-      body {
-        background: white;
-      }
-      .btn-container {
-        display: none;
-      }
-      #form-container {
-        box-shadow: none;
-        margin: 0;
-      }
+      .btn-container { display: none; }
+      #form-container { box-shadow: none; margin: 0; }
     }
   </style>
 </head>
@@ -89,7 +79,7 @@
   </div>
 
   <div id="form-container">
-    <img id="form-bg" src="safety_induction_form_bg.png" alt="Form background" />
+    <img id="form-bg" src="safety_induction_form_bg_resized.png" alt="Form background" />
 
     <div class="field" id="company"></div>
     <div class="field" id="name"></div>
@@ -116,36 +106,34 @@
     }
 
     function populateFields() {
-      const params = getQueryParams();
-      const fieldMap = {
-        company: params.company,
-        name: params.name,
-        designation: params.designation,
-        passport: params.passport_no || params.ic,
-        nationality: params.nationality,
-        passport_expiry: params.passport_exp,
-        dob: params.dob,
-        workpermit_expiry: params.workpermit_expiry,
-        contact: params.contact,
-        cidb: params.cidb_expiry,
-        emergency_name: params.emergency_name,
-        emergency_contact: params.emergency_contact
+      const p = getQueryParams();
+      const map = {
+        company: p.company,
+        name: p.name,
+        designation: p.designation,
+        passport: p.passport_no || p.ic,
+        nationality: p.nationality,
+        passport_expiry: p.passport_exp,
+        dob: p.dob,
+        workpermit_expiry: p.workpermit_expiry,
+        contact: p.contact,
+        cidb: p.cidb_expiry,
+        emergency_name: p.emergency_name,
+        emergency_contact: p.emergency_contact
       };
-
-      for (const [id, value] of Object.entries(fieldMap)) {
+      for (const id in map) {
         const el = document.getElementById(id);
-        if (el && value) el.textContent = value.trim();
+        if (el && map[id]) el.textContent = map[id].trim();
       }
     }
 
     function downloadPDF() {
-      const name = document.getElementById('name')?.textContent || 'Unknown';
-      const safeName = name.trim().replace(/\s+/g, '_').replace(/[^\w\-]/g, '');
-      const fileName = `EPG_Safety_Induction_Form_${safeName}.pdf`;
-
+      const nm = document.getElementById('name')?.textContent || 'Unknown';
+      const safe = nm.trim().replace(/\s+/g,'_').replace(/[^\w\-]/g,'');
+      const fname = `EPG_Safety_Induction_Form_${safe}.pdf`;
       html2pdf().set({
         margin: 0,
-        filename: fileName,
+        filename: fname,
         pagebreak: { mode: 'avoid-all' },
         image: { type: 'jpeg', quality: 1 },
         html2canvas: { scale: 2, scrollY: 0 },
