@@ -10,12 +10,37 @@
       margin: 0;
       background: #f4f4f4;
       font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      padding: 2rem;
+      gap: 2rem;
+    }
+    .preview-wrapper {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .btn-container {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      flex-shrink: 0;
+    }
+    .btn.mini {
+      padding: 6px 14px;
+      font-size: 14px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 120px;
+      text-align: center;
     }
     #form-container {
       position: relative;
-      width: 794px;   /* A4 width */
-      height: 1123px; /* A4 height */
-      margin: 0 auto;
+      width: 794px;
+      height: 1123px;
       background: white;
       box-shadow: 0 0 10px rgba(0,0,0,0.2);
     }
@@ -35,7 +60,7 @@
       padding: 0 4px;
     }
 
-    /* Precisely aligned after colon, on resized image */
+    /* Precisely aligned overlay positions */
     #company              { top: 87px;  left: 244px; }
     #name                 { top: 109px; left: 244px; }
     #designation          { top: 109px; left: 638px; }
@@ -49,60 +74,48 @@
     #emergency_name       { top: 218px; left: 244px; }
     #emergency_contact    { top: 218px; left: 638px; }
 
-    .btn-container {
-      text-align: right;
-      width: 794px;
-      margin: 1rem auto 0.5rem auto;
-      padding-right: 1rem;
-    }
-    .btn.mini {
-      padding: 4px 12px;
-      font-size: 13px;
-      background-color: #007BFF;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      margin-left: 0.5rem;
-    }
     @media print {
       .btn-container { display: none; }
-      #form-container { box-shadow: none; margin: 0; }
+      body { background: white; padding: 0; }
+      #form-container { box-shadow: none; }
     }
   </style>
 </head>
 <body>
 
-  <div class="btn-container">
-    <button class="btn mini" onclick="window.print()">🖨️ Print</button>
-    <button class="btn mini" onclick="downloadPDF()">⬇️ Download</button>
-  </div>
+  <div class="preview-wrapper">
+    <!-- Sidebar with buttons -->
+    <div class="btn-container">
+      <button class="btn mini" onclick="window.print()">🖨️ Print</button>
+      <button class="btn mini" onclick="downloadPDF()">⬇️ Download</button>
+    </div>
 
-  <div id="form-container">
-    <img id="form-bg" src="safety_induction_form_bg_resized.png" alt="Form background" />
-
-    <div class="field" id="company"></div>
-    <div class="field" id="name"></div>
-    <div class="field" id="designation"></div>
-    <div class="field" id="passport"></div>
-    <div class="field" id="nationality"></div>
-    <div class="field" id="passport_expiry"></div>
-    <div class="field" id="dob"></div>
-    <div class="field" id="workpermit_expiry"></div>
-    <div class="field" id="contact"></div>
-    <div class="field" id="cidb"></div>
-    <div class="field" id="emergency_name"></div>
-    <div class="field" id="emergency_contact"></div>
+    <!-- Form preview -->
+    <div id="form-container">
+      <img id="form-bg" src="safety_induction_form_bg_resized.png" alt="Form background" />
+      <div class="field" id="company"></div>
+      <div class="field" id="name"></div>
+      <div class="field" id="designation"></div>
+      <div class="field" id="passport"></div>
+      <div class="field" id="nationality"></div>
+      <div class="field" id="passport_expiry"></div>
+      <div class="field" id="dob"></div>
+      <div class="field" id="workpermit_expiry"></div>
+      <div class="field" id="contact"></div>
+      <div class="field" id="cidb"></div>
+      <div class="field" id="emergency_name"></div>
+      <div class="field" id="emergency_contact"></div>
+    </div>
   </div>
 
   <script>
     function getQueryParams() {
-      const params = {};
+      const p = {};
       window.location.search.substring(1).split("&").forEach(pair => {
         const [k, v] = pair.split("=");
-        params[decodeURIComponent(k)] = decodeURIComponent(v || '');
+        p[decodeURIComponent(k)] = decodeURIComponent(v || '');
       });
-      return params;
+      return p;
     }
 
     function populateFields() {
