@@ -15,7 +15,7 @@
       position: relative;
       width: 1275px;
       height: 1650px;
-      margin: 2rem auto;
+      margin: 0 auto; /* ⬅️ Removed top margin */
       background: white;
       box-shadow: 0 0 10px rgba(0,0,0,0.2);
     }
@@ -34,7 +34,8 @@
       white-space: nowrap;
       padding: 0 4px;
     }
-    /* Aligned after colons */
+
+    /* Aligned just after colons */
     #company              { top: 138px; left: 370px; }
     #name                 { top: 170px; left: 370px; }
     #designation          { top: 170px; left: 1010px; }
@@ -47,10 +48,11 @@
     #cidb                 { top: 290px; left: 1010px; }
     #emergency_name       { top: 320px; left: 370px; }
     #emergency_contact    { top: 320px; left: 1010px; }
+
     .btn-container {
       text-align: right;
       width: 1275px;
-      margin: 0 auto 1rem auto;
+      margin: 1rem auto 0.5rem auto;  /* Top aligned + spacing below */
       padding-right: 1rem;
     }
     .btn.mini {
@@ -74,6 +76,8 @@
 
   <div id="form-container">
     <img id="form-bg" src="safety_induction_form_bg.png" alt="Form background" />
+
+    <!-- Overlay Fields -->
     <div class="field" id="company"></div>
     <div class="field" id="name"></div>
     <div class="field" id="designation"></div>
