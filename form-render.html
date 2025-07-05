@@ -35,19 +35,19 @@
       padding: 0 4px;
     }
 
-    /* ✅ Updated coordinates */
-    #company              { top: 138px; left: 330px; }
-    #name                 { top: 170px; left: 330px; }
-    #designation          { top: 170px; left: 955px; }
-    #passport             { top: 200px; left: 955px; }
-    #nationality          { top: 230px; left: 330px; }
-    #passport_expiry      { top: 230px; left: 955px; }
-    #dob                  { top: 260px; left: 330px; }
-    #workpermit_expiry    { top: 260px; left: 955px; }
-    #contact              { top: 290px; left: 330px; }
-    #cidb                 { top: 290px; left: 955px; }
-    #emergency_name       { top: 320px; left: 330px; }
-    #emergency_contact    { top: 320px; left: 955px; }
+    /* 🎯 Aligned just after colon */
+    #company              { top: 138px; left: 370px; }
+    #name                 { top: 170px; left: 370px; }
+    #designation          { top: 170px; left: 1010px; }
+    #passport             { top: 200px; left: 1010px; }
+    #nationality          { top: 230px; left: 370px; }
+    #passport_expiry      { top: 230px; left: 1010px; }
+    #dob                  { top: 260px; left: 370px; }
+    #workpermit_expiry    { top: 260px; left: 1010px; }
+    #contact              { top: 290px; left: 370px; }
+    #cidb                 { top: 290px; left: 1010px; }
+    #emergency_name       { top: 320px; left: 370px; }
+    #emergency_contact    { top: 320px; left: 1010px; }
 
     .btn-container {
       text-align: right;
@@ -132,6 +132,7 @@
       html2pdf().set({
         margin: 0,
         filename: fileName,
+        pagebreak: { mode: 'avoid-all' },
         image: { type: 'jpeg', quality: 1 },
         html2canvas: { scale: 2, scrollY: 0 },
         jsPDF: { unit: 'px', format: [1275, 1650], orientation: 'portrait' }
