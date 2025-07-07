@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>EPG Redirect URL Generator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      padding: 2rem;
+      max-width: 600px;
+      margin: auto;
+    }
+    h2 {
+      color: #007BFF;
+    }
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+    input {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.25rem;
+      font-size: 1rem;
+    }
+    #output {
+      margin-top: 2rem;
+      background: #fff;
+      border: 1px solid #ddd;
+      padding: 1rem;
+      word-break: break-all;
+    }
+    button {
+      margin-top: 1.5rem;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:active {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>🔗 Redirect URL Generator</h2>
+  <p>Fill in the fields below to generate a Feishu redirect URL that goes to the form renderer with prefilled data.</p>
+
+  <form id="urlForm">
+    <label>Name
+      <input type="text" name="name" />
+    </label>
+    <label>Company
+      <input type="text" name="company" />
+    </label>
+    <label>Designation
+      <input type="text" name="designation" />
+    </label>
+    <label>Passport No / IC
+      <input type="text" name="passport_no" />
+    </label>
+    <label>Passport Expiry
+      <input type="text" name="passport_exp" />
+    </label>
+    <label>Work Permit Expiry
+      <input type="text" name="workpermit_expiry" />
+    </label>
+    <label>CIDB Expiry
+      <input type="text" name="cidb_expiry" />
+    </label>
+    <label>Nationality
+      <input type="text" name="nationality" />
+    </label>
+    <label>Date of Birth
+      <input type="text" name="dob" />
+    </label>
+    <label>Contact Number
+      <input type="text" name="contact" />
+    </label>
+    <label>Emergency Contact Name
+      <input type="text" name="emergency_name" />
+    </label>
+    <label>Emergency Contact Number
+      <input type="text" name="emergency_contact" />
+    </label>
+
+    <button type="button" onclick="generate()">Generate URL</button>
+  </form>
+
+  <div id="output">
+    <strong>Redirect URL:</strong>
+    <p id="result">—</p>
+  </div>
+
+  <script>
+    function generate() {
+      const form = document.forms.urlForm;
+      const data = new URLSearchParams();
+      for (const element of form.elements) {
+        if (element.name && element.value) {
+          data.append(element.name, element.value.trim());
+        }
+      }
+      const hash = data.toString().replace(/%20/g, '+');
+      const url = `https://epailxi.github.io/EPGNTPINDUCTION/redirect.html#${hash}`;
+      document.getElementById("result").textContent = url;
+    }
+  </script>
+
+</body>
+</html>
