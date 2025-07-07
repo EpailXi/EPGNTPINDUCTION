@@ -9,7 +9,12 @@
     :root {
       --col-left-l: 257px;
       --col-left-r: 623px;
-      --vertical-offset: 0px; /* 👈 Adjust this to move all fields up/down */
+
+      --offset-top-left: 0px;
+      --offset-top-right: 0px;
+
+      --row-1: 91px;
+      --row-gap: 23px;
     }
 
     .debug .field {
@@ -77,18 +82,19 @@
     .col-l { left: var(--col-left-l); }
     .col-r { left: var(--col-left-r); }
 
-    .f-company            { top: calc(91px  + var(--vertical-offset)); }
-    .f-name               { top: calc(114px + var(--vertical-offset)); }
-    .f-designation        { top: calc(114px + var(--vertical-offset)); }
-    .f-passport           { top: calc(136px + var(--vertical-offset)); }
-    .f-nationality        { top: calc(158px + var(--vertical-offset)); }
-    .f-passport_expiry    { top: calc(158px + var(--vertical-offset)); }
-    .f-dob                { top: calc(181px + var(--vertical-offset)); }
-    .f-workpermit_expiry  { top: calc(181px + var(--vertical-offset)); }
-    .f-contact            { top: calc(204px + var(--vertical-offset)); }
-    .f-cidb               { top: calc(204px + var(--vertical-offset)); }
-    .f-emergency_name     { top: calc(227px + var(--vertical-offset)); }
-    .f-emergency_contact  { top: calc(227px + var(--vertical-offset)); }
+    /* Line-by-line top position using row-gap */
+    .f-company            { top: calc(var(--row-1) + 0 * var(--row-gap) + var(--offset-top-left)); }
+    .f-name               { top: calc(var(--row-1) + 1 * var(--row-gap) + var(--offset-top-left)); }
+    .f-designation        { top: calc(var(--row-1) + 1 * var(--row-gap) + var(--offset-top-right)); }
+    .f-passport           { top: calc(var(--row-1) + 2 * var(--row-gap) + var(--offset-top-right)); }
+    .f-nationality        { top: calc(var(--row-1) + 3 * var(--row-gap) + var(--offset-top-left)); }
+    .f-passport_expiry    { top: calc(var(--row-1) + 3 * var(--row-gap) + var(--offset-top-right)); }
+    .f-dob                { top: calc(var(--row-1) + 4 * var(--row-gap) + var(--offset-top-left)); }
+    .f-workpermit_expiry  { top: calc(var(--row-1) + 4 * var(--row-gap) + var(--offset-top-right)); }
+    .f-contact            { top: calc(var(--row-1) + 5 * var(--row-gap) + var(--offset-top-left)); }
+    .f-cidb               { top: calc(var(--row-1) + 5 * var(--row-gap) + var(--offset-top-right)); }
+    .f-emergency_name     { top: calc(var(--row-1) + 6 * var(--row-gap) + var(--offset-top-left)); }
+    .f-emergency_contact  { top: calc(var(--row-1) + 6 * var(--row-gap) + var(--offset-top-right)); }
 
     @media print {
       .btn-container { display: none; }
