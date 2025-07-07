@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Redirecting...</title>
+  <title>Redirecting…</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
@@ -12,6 +12,7 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
+      margin: 0;
       color: #333;
     }
     .message {
@@ -23,20 +24,19 @@
   </style>
 </head>
 <body>
-  <div class="message">
-    ⏳ Processing your submission, please wait...
-  </div>
-
+  <div class="message">⏳ Processing your submission, please wait…</div>
   <script>
-    // Extract the URL fragment (after #)
     const hash = window.location.hash.slice(1);
-    if (!hash) {
-      document.querySelector('.message').textContent = "❌ No data found in redirect URL.";
+    if (hash) {
+      // Build final URL and redirect
+      const query = hash.replace(/\+/g, '%20');
+      const target = window.location.origin +
+                     '/EPGNTPINDUCTION/form-render.html?' +
+                     query;
+      window.location.replace(target);
     } else {
-      // Replace "+" with space and redirect
-      const query = hash.replace(/\+/g, ' ');
-      const target = "form-render.html?" + query;
-      window.location.href = target;
+      document.querySelector('.message').textContent =
+        '❌ No data received.';
     }
   </script>
 </body>
