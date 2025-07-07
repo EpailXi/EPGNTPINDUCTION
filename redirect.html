@@ -28,15 +28,11 @@
   <script>
     const hash = window.location.hash.slice(1);
     if (hash) {
-      // Build final URL and redirect
       const query = hash.replace(/\+/g, '%20');
-      const target = window.location.origin +
-                     '/EPGNTPINDUCTION/form-render.html?' +
-                     query;
-      window.location.replace(target);
+      const base = window.location.origin + '/EPGNTPINDUCTION/form-render.html?';
+      window.location.replace(base + query);
     } else {
-      document.querySelector('.message').textContent =
-        '❌ No data received.';
+      document.querySelector('.message').textContent = '❌ No data received.';
     }
   </script>
 </body>
