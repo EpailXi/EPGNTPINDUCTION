@@ -12,8 +12,8 @@
       --offset-top-left: 75px;
       --offset-top-right: 57px;
       --row-1: 88px;
-      --row-gap-left: 19px;
-      --row-gap-right: 18.5px;
+      --row-gap-left: 17px;
+      --row-gap-right: 18px;
     }
     .debug .field {
       background: rgba(255, 0, 0, 0.2);
@@ -51,7 +51,7 @@
       width: 794px;
       height: 1123px;
       background: white;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
     }
     #form-bg {
       position: absolute;
@@ -73,18 +73,19 @@
     .col-l { left: var(--col-left-l); }
     .col-r { left: var(--col-left-r); }
     /* Left column */
-    .f-company        { top: calc(var(--row-1) + 0 * var(--row-gap-left) + var(--offset-top-left)); }
-    .f-name           { top: calc(var(--row-1) + 1 * var(--row-gap-left) + var(--offset-top-left)); }
-    .f-nationality    { top: calc(var(--row-1) + 3 * var(--row-gap-left) + var(--offset-top-left)); }
-    .f-dob            { top: calc(var(--row-1) + 4 * var(--row-gap-left) + var(--offset-top-left)); }
-    .f-contact        { top: calc(var(--row-1) + 5 * var(--row-gap-left) + var(--offset-top-left)); }
-    .f-emergency_name { top: calc(var(--row-1) + 6 * var(--row-gap-left) + var(--offset-top-left)); }
+    .f-company        { top: calc(var(--row-1) + 0 * var(--row-gap-left)  + var(--offset-top-left)); }
+    .f-name           { top: calc(var(--row-1) + 1 * var(--row-gap-left)  + var(--offset-top-left)); }
+    .f-nationality    { top: calc(var(--row-1) + 3 * var(--row-gap-left)  + var(--offset-top-left)); }
+    .f-dob            { top: calc(var(--row-1) + 4 * var(--row-gap-left)  + var(--offset-top-left)); }
+    .f-contact        { top: calc(var(--row-1) + 5 * var(--row-gap-left)  + var(--offset-top-left)); }
+    .f-emergency_name { top: calc(var(--row-1) + 6 * var(--row-gap-left)  + var(--offset-top-left)); }
     /* Right column */
     .f-designation       { top: calc(var(--row-1) + 1 * var(--row-gap-right) + var(--offset-top-right)); }
     .f-passport          { top: calc(var(--row-1) + 2 * var(--row-gap-right) + var(--offset-top-right)); }
     .f-passport_expiry   { top: calc(var(--row-1) + 3 * var(--row-gap-right) + var(--offset-top-right)); }
     .f-workpermit_expiry { top: calc(var(--row-1) + 4 * var(--row-gap-right) + var(--offset-top-right)); }
     .f-cidb              { top: calc(var(--row-1) + 5 * var(--row-gap-right) + var(--offset-top-right)); }
+    /* empty row */
     .f-emergency_contact { top: calc(var(--row-1) + 7 * var(--row-gap-right) + var(--offset-top-right)); }
     @media print {
       .btn-container { display: none; }
@@ -94,12 +95,10 @@
   </style>
 </head>
 <body>
-
   <div class="btn-container">
     <button class="btn mini" onclick="window.print()">🖨️ Print</button>
     <button class="btn mini" onclick="downloadPDF()">⬇️ Download</button>
   </div>
-
   <div id="form-container">
     <img id="form-bg" src="safety_induction_form_bg_resized.png" alt="Form background" />
     <div class="field col-l f-company"           id="company"></div>
@@ -115,25 +114,23 @@
     <div class="field col-l f-emergency_name"    id="emergency_name"></div>
     <div class="field col-r f-emergency_contact" id="emergency_contact"></div>
   </div>
-
   <script>
     function getParams() {
       const p = {};
       window.location.search.slice(1).split('&').forEach(pair => {
-        const [k, v] = pair.split('=');
-        p[decodeURIComponent(k)] = decodeURIComponent(v || '');
+        const [k,v] = pair.split('=');
+        p[decodeURIComponent(k)] = decodeURIComponent(v||'');
       });
       return p;
     }
-
     function populate() {
       const p = getParams();
-      if (p.debug === '1') document.body.classList.add('debug');
+      if (p.debug==='1') document.body.classList.add('debug');
       const map = {
         company: p.company,
         name: p.name,
         designation: p.designation,
-        passport: p.passport_no || p.ic,
+        passport: p.passport_no||p.ic,
         nationality: p.nationality,
         passport_expiry: p.passport_exp,
         dob: p.dob,
@@ -148,20 +145,17 @@
         if (el && map[id]) el.textContent = map[id].trim();
       }
     }
-
     function downloadPDF() {
-      const nm = document.getElementById('name')?.textContent || 'Unknown';
-      const safe = nm.trim().replace(/\s+/g, '_').replace(/[^\w\-]/g, '');
+      const nm = document.getElementById('name')?.textContent||'Unknown';
+      const safe = nm.trim().replace(/\s+/g,'_').replace(/[^\w\-]/g,'');
       html2pdf().set({
-        margin: 0,
-        filename: `EPG_Safety_Induction_Form_${safe}.pdf`,
-        pagebreak: { mode: 'avoid-all' },
-        image: { type: 'jpeg', quality: 1 },
-        html2canvas: { scale: 2, scrollY: 0 },
-        jsPDF: { unit: 'px', format: [794, 1123], orientation: 'portrait' }
+        margin:0,filename:`EPG_Safety_Induction_Form_${safe}.pdf`,
+        pagebreak:{mode:'avoid-all'},
+        image:{type:'jpeg',quality:1},
+        html2canvas:{scale:2,scrollY:0},
+        jsPDF:{unit:'px',format:[794,1123],orientation:'portrait'}
       }).from(document.getElementById('form-container')).save();
     }
-
     populate();
   </script>
 </body>
