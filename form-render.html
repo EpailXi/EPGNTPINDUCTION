@@ -8,15 +8,15 @@
   <style>
     :root {
       --col-left-l: 257px;
-      --col-left-r: 613px;
+      --col-right: 613px;
       --offset-top-left: 75px;
       --offset-top-right: 57px;
       --row-1: 88px;
       --row-gap-left: 17px;
-      --row-gap-right: 18px;
+      --row-gap-right: 17.5px;
     }
     .debug .field {
-      background: rgba(255, 0, 0, 0.2);
+      background: rgba(255,0,0,0.2);
       border: 1px solid red;
     }
     body {
@@ -71,7 +71,8 @@
       padding: 0 4px;
     }
     .col-l { left: var(--col-left-l); }
-    .col-r { left: var(--col-left-r); }
+    .col-r { left: var(--col-right); }
+
     /* Left column */
     .f-company        { top: calc(var(--row-1) + 0 * var(--row-gap-left)  + var(--offset-top-left)); }
     .f-name           { top: calc(var(--row-1) + 1 * var(--row-gap-left)  + var(--offset-top-left)); }
@@ -79,14 +80,15 @@
     .f-dob            { top: calc(var(--row-1) + 4 * var(--row-gap-left)  + var(--offset-top-left)); }
     .f-contact        { top: calc(var(--row-1) + 5 * var(--row-gap-left)  + var(--offset-top-left)); }
     .f-emergency_name { top: calc(var(--row-1) + 6 * var(--row-gap-left)  + var(--offset-top-left)); }
+
     /* Right column */
     .f-designation       { top: calc(var(--row-1) + 1 * var(--row-gap-right) + var(--offset-top-right)); }
     .f-passport          { top: calc(var(--row-1) + 2 * var(--row-gap-right) + var(--offset-top-right)); }
     .f-passport_expiry   { top: calc(var(--row-1) + 3 * var(--row-gap-right) + var(--offset-top-right)); }
     .f-workpermit_expiry { top: calc(var(--row-1) + 4 * var(--row-gap-right) + var(--offset-top-right)); }
     .f-cidb              { top: calc(var(--row-1) + 5 * var(--row-gap-right) + var(--offset-top-right)); }
-    /* empty row */
     .f-emergency_contact { top: calc(var(--row-1) + 7 * var(--row-gap-right) + var(--offset-top-right)); }
+
     @media print {
       .btn-container { display: none; }
       body { background: white; padding: 0; }
@@ -95,10 +97,12 @@
   </style>
 </head>
 <body>
+
   <div class="btn-container">
     <button class="btn mini" onclick="window.print()">🖨️ Print</button>
     <button class="btn mini" onclick="downloadPDF()">⬇️ Download</button>
   </div>
+
   <div id="form-container">
     <img id="form-bg" src="safety_induction_form_bg_resized.png" alt="Form background" />
     <div class="field col-l f-company"           id="company"></div>
@@ -114,23 +118,24 @@
     <div class="field col-l f-emergency_name"    id="emergency_name"></div>
     <div class="field col-r f-emergency_contact" id="emergency_contact"></div>
   </div>
+
   <script>
     function getParams() {
       const p = {};
       window.location.search.slice(1).split('&').forEach(pair => {
-        const [k,v] = pair.split('=');
-        p[decodeURIComponent(k)] = decodeURIComponent(v||'');
+        const [k, v] = pair.split('=');
+        p[decodeURIComponent(k)] = decodeURIComponent(v || '');
       });
       return p;
     }
     function populate() {
       const p = getParams();
-      if (p.debug==='1') document.body.classList.add('debug');
+      if (p.debug === '1') document.body.classList.add('debug');
       const map = {
         company: p.company,
         name: p.name,
         designation: p.designation,
-        passport: p.passport_no||p.ic,
+        passport: p.passport_no || p.ic,
         nationality: p.nationality,
         passport_expiry: p.passport_exp,
         dob: p.dob,
@@ -140,20 +145,21 @@
         emergency_name: p.emergency_name,
         emergency_contact: p.emergency_contact
       };
-      for (const id in map) {
+      Object.entries(map).forEach(([id, text]) => {
         const el = document.getElementById(id);
-        if (el && map[id]) el.textContent = map[id].trim();
-      }
+        if (el && text) el.textContent = text.trim();
+      });
     }
     function downloadPDF() {
-      const nm = document.getElementById('name')?.textContent||'Unknown';
-      const safe = nm.trim().replace(/\s+/g,'_').replace(/[^\w\-]/g,'');
+      const name = document.getElementById('name')?.textContent || 'Unknown';
+      const safe = name.trim().replace(/\s+/g, '_').replace(/[^\w\-]/g, '');
       html2pdf().set({
-        margin:0,filename:`EPG_Safety_Induction_Form_${safe}.pdf`,
-        pagebreak:{mode:'avoid-all'},
-        image:{type:'jpeg',quality:1},
-        html2canvas:{scale:2,scrollY:0},
-        jsPDF:{unit:'px',format:[794,1123],orientation:'portrait'}
+        margin: 0,
+        filename: `EPG_Safety_Induction_Form_${safe}.pdf`,
+        pagebreak: { mode: 'avoid-all' },
+        image: { type: 'jpeg', quality: 1 },
+        html2canvas: { scale: 2, scrollY: 0 },
+        jsPDF: { unit: 'px', format: [794, 1123], orientation: 'portrait' }
       }).from(document.getElementById('form-container')).save();
     }
     populate();
