@@ -6,6 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
+    :root {
+      /* Tweak these two values until your overlay aligns perfectly */
+      --col-left-l: 244px;  /* left‑column X offset */
+      --col-left-r: 638px;  /* right‑column X offset */
+    }
     body {
       margin: 0;
       background: #f4f4f4;
@@ -39,8 +44,8 @@
     }
     #form-container {
       position: relative;
-      width: 794px;
-      height: 1123px;
+      width: 794px;   /* A4 width */
+      height: 1123px; /* A4 height */
       background: white;
       box-shadow: 0 0 10px rgba(0,0,0,0.2);
     }
@@ -59,20 +64,33 @@
       white-space: nowrap;
       padding: 0 4px;
     }
+    /* Left‑column fields */
+    #company, #name, #nationality, #dob, #contact, #emergency_name {
+      left: var(--col-left-l);
+    }
+    /* Right‑column fields */
+    #designation, #passport, #passport_expiry, #workpermit_expiry, #cidb, #emergency_contact {
+      left: var(--col-left-r);
+    }
+    /* Vertically centered row positions */
+    #company              { top:  87px; }
+    #name                 { top: 109px; }
+    #designation          { top: 109px; }
+    #passport             { top: 130px; }
+    #nationality          { top: 152px; }
+    #passport_expiry      { top: 152px; }
+    #dob                  { top: 174px; }
+    #workpermit_expiry    { top: 174px; }
+    #contact              { top: 196px; }
+    #cidb                 { top: 196px; }
+    #emergency_name       { top: 218px; }
+    #emergency_contact    { top: 218px; }
 
-    /* Precisely aligned overlay positions */
-    #company              { top: 87px;  left: 244px; }
-    #name                 { top: 109px; left: 244px; }
-    #designation          { top: 109px; left: 638px; }
-    #passport             { top: 130px; left: 638px; }
-    #nationality          { top: 152px; left: 244px; }
-    #passport_expiry      { top: 152px; left: 638px; }
-    #dob                  { top: 174px; left: 244px; }
-    #workpermit_expiry    { top: 174px; left: 638px; }
-    #contact              { top: 196px; left: 244px; }
-    #cidb                 { top: 196px; left: 638px; }
-    #emergency_name       { top: 218px; left: 244px; }
-    #emergency_contact    { top: 218px; left: 638px; }
+    /* Debug outlines if ?debug=1 */
+    .debug .field {
+      background: rgba(255,0,0,0.2);
+      border: 1px solid red;
+    }
 
     @media print {
       .btn-container { display: none; }
@@ -84,13 +102,13 @@
 <body>
 
   <div class="preview-wrapper">
-    <!-- Sidebar with buttons -->
+    <!-- Sidebar -->
     <div class="btn-container">
       <button class="btn mini" onclick="window.print()">🖨️ Print</button>
       <button class="btn mini" onclick="downloadPDF()">⬇️ Download</button>
     </div>
 
-    <!-- Form preview -->
+    <!-- Form Preview -->
     <div id="form-container">
       <img id="form-bg" src="safety_induction_form_bg_resized.png" alt="Form background" />
       <div class="field" id="company"></div>
@@ -109,22 +127,27 @@
   </div>
 
   <script>
+    // Read URL parameters
     function getQueryParams() {
       const p = {};
       window.location.search.substring(1).split("&").forEach(pair => {
-        const [k, v] = pair.split("=");
-        p[decodeURIComponent(k)] = decodeURIComponent(v || '');
+        const [k,v] = pair.split("=");
+        p[decodeURIComponent(k)] = decodeURIComponent(v||'');
       });
       return p;
     }
 
+    // Populate overlay fields
     function populateFields() {
       const p = getQueryParams();
+      if (p.debug==='1') {
+        document.getElementById('form-container').classList.add('debug');
+      }
       const map = {
         company: p.company,
         name: p.name,
         designation: p.designation,
-        passport: p.passport_no || p.ic,
+        passport: p.passport_no||p.ic,
         nationality: p.nationality,
         passport_expiry: p.passport_exp,
         dob: p.dob,
@@ -134,23 +157,23 @@
         emergency_name: p.emergency_name,
         emergency_contact: p.emergency_contact
       };
-      for (const id in map) {
-        const el = document.getElementById(id);
-        if (el && map[id]) el.textContent = map[id].trim();
+      for (let id in map) {
+        const el=document.getElementById(id);
+        if(el && map[id]) el.textContent=map[id].trim();
       }
     }
 
-    function downloadPDF() {
-      const nm = document.getElementById('name')?.textContent || 'Unknown';
-      const safe = nm.trim().replace(/\s+/g,'_').replace(/[^\w\-]/g,'');
-      const fname = `EPG_Safety_Induction_Form_${safe}.pdf`;
+    // Download PDF
+    function downloadPDF(){
+      const nm=document.getElementById('name')?.textContent||'Unknown';
+      const safe=nm.trim().replace(/\s+/g,'_').replace(/[^\w\-]/g,'');
+      const fname=`EPG_Safety_Induction_Form_${safe}.pdf`;
       html2pdf().set({
-        margin: 0,
-        filename: fname,
-        pagebreak: { mode: 'avoid-all' },
-        image: { type: 'jpeg', quality: 1 },
-        html2canvas: { scale: 2, scrollY: 0 },
-        jsPDF: { unit: 'px', format: [794, 1123], orientation: 'portrait' }
+        margin:0,filename:fname,
+        pagebreak:{mode:'avoid-all'},
+        image:{type:'jpeg',quality:1},
+        html2canvas:{scale:2,scrollY:0},
+        jsPDF:{unit:'px',format:[794,1123],orientation:'portrait'}
       }).from(document.getElementById('form-container')).save();
     }
 
