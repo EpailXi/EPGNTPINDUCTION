@@ -7,13 +7,16 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
     :root {
-      --col-left-l: 255px; /* fine-tuned from 244px */
-      --col-left-r: 650px; /* fine-tuned from 638px */
+      --col-left-l: 257px;
+      --col-left-r: 623px;
+      --vertical-offset: 0px; /* 👈 Adjust this to move all fields up/down */
     }
+
     .debug .field {
       background: rgba(255, 0, 0, 0.2);
       border: 1px solid red;
     }
+
     body {
       margin: 0;
       background: #f4f4f4;
@@ -22,6 +25,7 @@
       justify-content: center;
       padding: 2rem;
     }
+
     .btn-container {
       position: fixed;
       top: 1rem;
@@ -30,6 +34,7 @@
       flex-direction: column;
       gap: 0.5rem;
     }
+
     .btn.mini {
       padding: 6px 14px;
       font-size: 14px;
@@ -41,13 +46,15 @@
       width: 120px;
       text-align: center;
     }
+
     #form-container {
       position: relative;
       width: 794px;
       height: 1123px;
       background: white;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     }
+
     #form-bg {
       position: absolute;
       width: 794px;
@@ -56,6 +63,7 @@
       left: 0;
       z-index: 1;
     }
+
     .field {
       position: absolute;
       z-index: 2;
@@ -66,23 +74,21 @@
       padding: 0 4px;
     }
 
-    /* Column positioning via variables */
     .col-l { left: var(--col-left-l); }
     .col-r { left: var(--col-left-r); }
 
-    /* Adjusted top pixel values */
-    .f-company            { top:  91px; }
-    .f-name               { top: 114px; }
-    .f-designation        { top: 114px; }
-    .f-passport           { top: 136px; }
-    .f-nationality        { top: 158px; }
-    .f-passport_expiry    { top: 158px; }
-    .f-dob                { top: 181px; }
-    .f-workpermit_expiry  { top: 181px; }
-    .f-contact            { top: 204px; }
-    .f-cidb               { top: 204px; }
-    .f-emergency_name     { top: 227px; }
-    .f-emergency_contact  { top: 227px; }
+    .f-company            { top: calc(91px  + var(--vertical-offset)); }
+    .f-name               { top: calc(114px + var(--vertical-offset)); }
+    .f-designation        { top: calc(114px + var(--vertical-offset)); }
+    .f-passport           { top: calc(136px + var(--vertical-offset)); }
+    .f-nationality        { top: calc(158px + var(--vertical-offset)); }
+    .f-passport_expiry    { top: calc(158px + var(--vertical-offset)); }
+    .f-dob                { top: calc(181px + var(--vertical-offset)); }
+    .f-workpermit_expiry  { top: calc(181px + var(--vertical-offset)); }
+    .f-contact            { top: calc(204px + var(--vertical-offset)); }
+    .f-cidb               { top: calc(204px + var(--vertical-offset)); }
+    .f-emergency_name     { top: calc(227px + var(--vertical-offset)); }
+    .f-emergency_contact  { top: calc(227px + var(--vertical-offset)); }
 
     @media print {
       .btn-container { display: none; }
