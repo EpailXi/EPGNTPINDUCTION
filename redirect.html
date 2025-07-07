@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Redirecting...</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #333;
+    }
+    .message {
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <div class="message">
+    ⏳ Processing your submission, please wait...
+  </div>
+
+  <script>
+    // Extract the URL fragment (after #)
+    const hash = window.location.hash.slice(1);
+    if (!hash) {
+      document.querySelector('.message').textContent = "❌ No data found in redirect URL.";
+    } else {
+      // Replace "+" with space and redirect
+      const query = hash.replace(/\+/g, ' ');
+      const target = "form-render.html?" + query;
+      window.location.href = target;
+    }
+  </script>
+</body>
+</html>
