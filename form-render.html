@@ -14,7 +14,8 @@
       --offset-top-right: 0px;
 
       --row-1: 91px;
-      --row-gap: 23px;
+      --row-gap-left: 23px;
+      --row-gap-right: 23px;
     }
 
     .debug .field {
@@ -82,19 +83,21 @@
     .col-l { left: var(--col-left-l); }
     .col-r { left: var(--col-left-r); }
 
-    /* Line-by-line top position using row-gap */
-    .f-company            { top: calc(var(--row-1) + 0 * var(--row-gap) + var(--offset-top-left)); }
-    .f-name               { top: calc(var(--row-1) + 1 * var(--row-gap) + var(--offset-top-left)); }
-    .f-designation        { top: calc(var(--row-1) + 1 * var(--row-gap) + var(--offset-top-right)); }
-    .f-passport           { top: calc(var(--row-1) + 2 * var(--row-gap) + var(--offset-top-right)); }
-    .f-nationality        { top: calc(var(--row-1) + 3 * var(--row-gap) + var(--offset-top-left)); }
-    .f-passport_expiry    { top: calc(var(--row-1) + 3 * var(--row-gap) + var(--offset-top-right)); }
-    .f-dob                { top: calc(var(--row-1) + 4 * var(--row-gap) + var(--offset-top-left)); }
-    .f-workpermit_expiry  { top: calc(var(--row-1) + 4 * var(--row-gap) + var(--offset-top-right)); }
-    .f-contact            { top: calc(var(--row-1) + 5 * var(--row-gap) + var(--offset-top-left)); }
-    .f-cidb               { top: calc(var(--row-1) + 5 * var(--row-gap) + var(--offset-top-right)); }
-    .f-emergency_name     { top: calc(var(--row-1) + 6 * var(--row-gap) + var(--offset-top-left)); }
-    .f-emergency_contact  { top: calc(var(--row-1) + 6 * var(--row-gap) + var(--offset-top-right)); }
+    /* LEFT COLUMN FIELDS */
+    .f-company         { top: calc(var(--row-1) + 0 * var(--row-gap-left)  + var(--offset-top-left)); }
+    .f-name            { top: calc(var(--row-1) + 1 * var(--row-gap-left)  + var(--offset-top-left)); }
+    .f-nationality     { top: calc(var(--row-1) + 3 * var(--row-gap-left)  + var(--offset-top-left)); }
+    .f-dob             { top: calc(var(--row-1) + 4 * var(--row-gap-left)  + var(--offset-top-left)); }
+    .f-contact         { top: calc(var(--row-1) + 5 * var(--row-gap-left)  + var(--offset-top-left)); }
+    .f-emergency_name  { top: calc(var(--row-1) + 6 * var(--row-gap-left)  + var(--offset-top-left)); }
+
+    /* RIGHT COLUMN FIELDS */
+    .f-designation        { top: calc(var(--row-1) + 1 * var(--row-gap-right) + var(--offset-top-right)); }
+    .f-passport           { top: calc(var(--row-1) + 2 * var(--row-gap-right) + var(--offset-top-right)); }
+    .f-passport_expiry    { top: calc(var(--row-1) + 3 * var(--row-gap-right) + var(--offset-top-right)); }
+    .f-workpermit_expiry  { top: calc(var(--row-1) + 4 * var(--row-gap-right) + var(--offset-top-right)); }
+    .f-cidb               { top: calc(var(--row-1) + 5 * var(--row-gap-right) + var(--offset-top-right)); }
+    .f-emergency_contact  { top: calc(var(--row-1) + 6 * var(--row-gap-right) + var(--offset-top-right)); }
 
     @media print {
       .btn-container { display: none; }
