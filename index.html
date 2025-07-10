@@ -14,22 +14,6 @@
       background-color: #f9f9f9;
       color: #333;
     }
-    header {
-      display: flex;
-      align-items: center;
-      padding: 1rem;
-      background: #f4f4f4;
-      flex-wrap: wrap;
-    }
-    header img {
-      height: 40px;
-      margin-right: 1rem;
-      object-fit: contain;
-    }
-    header h1 {
-      font-size: 1.2rem;
-      flex: 1;
-    }
     .tab-container, .subnav {
       display: flex;
       flex-wrap: wrap;
@@ -73,7 +57,6 @@
       border: none;
       background: #fff;
     }
-    /* Loading overlay */
     .loader-overlay {
       position: absolute;
       inset: 0;
@@ -94,14 +77,10 @@
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
-
     @media (max-width: 600px) {
       .tab-container button, .subnav button {
         flex: 1 1 100%;
         padding: 0.75rem;
-        font-size: 1rem;
-      }
-      header h1 {
         font-size: 1rem;
       }
       iframe {
@@ -112,11 +91,6 @@
 </head>
 
 <body>
-  <header>
-    <img src="https://i.imgur.com/hsx3kVO.png" alt="EPG Logo">
-    <h1>EPG EHS DayOne-NTP Induction Web 入场培训网 (BETA TEST) </h1>
-  </header>
-
   <div class="tab-container">
     <button id="tab1" class="active">📥 Submit 入场申请</button>
     <button id="tab2">🔍 Query 查找</button>
@@ -124,13 +98,11 @@
     <button id="tab4">📊 Induction Slide 幻灯片</button>
   </div>
 
-  <!-- Subtabs for Query -->
   <div class="subnav" id="subtabs-tab2">
     <button id="query-subtab1" class="active">👤 Personnel Search 人员搜索</button>
     <button id="query-subtab2">⛑ Helmet Number (EPG ONLY)</button>
   </div>
 
-  <!-- Subtabs for Induction Slide -->
   <div class="subnav" id="subtabs-tab4">
     <button id="subtab1" class="active">🏗 Block H</button>
   </div>
