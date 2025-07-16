@@ -50,7 +50,7 @@
     main {
       padding: 0;
       position: relative;
-      height: calc(100vh - 60px); /* Adjust based on tab height */
+      height: calc(100vh - 60px);
       overflow: hidden;
     }
     iframe {
@@ -87,7 +87,7 @@
         font-size: 1rem;
       }
       main {
-        height: calc(100vh - 130px); /* More space for stacked tabs */
+        height: calc(100vh - 130px);
       }
     }
   </style>
@@ -97,7 +97,6 @@
   <div class="tab-container">
     <button id="tab1" class="active">📥 Submit 入场申请</button>
     <button id="tab2">🔍 Query 查找</button>
-    <button id="tab3">🔐 EPG EHS Access</button>
     <button id="tab4">📊 Induction Slide 幻灯片</button>
   </div>
 
@@ -120,8 +119,7 @@
   <script>
     const mainTabs = {
       tab1: 'https://twswzvv3ark.sg.feishu.cn/share/base/form/shrlgPuhdE1BMJp9m35UCE1P2db',
-      tab2: '',
-      tab3: 'https://twswzvv3ark.sg.feishu.cn/share/base/view/shrlgUmnr3LVMDLPgijDJCwnAXc'
+      tab2: ''
     };
 
     const subTabsSlide = {
