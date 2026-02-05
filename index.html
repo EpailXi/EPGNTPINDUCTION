@@ -3,56 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EPG EHS DayOne-NTP Induction Web 入场培训网</title>
+  <title>EPG EHS Induction Slides</title>
+
   <style>
     *, *::before, *::after {
       box-sizing: border-box;
     }
+
     body {
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background-color: #f9f9f9;
-      color: #333;
     }
-    .tab-container, .subnav {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      background-color: #eaeaea;
-      border-bottom: 2px solid #ccc;
-    }
-    .subnav {
-      display: none;
-      background-color: #f0f0f0;
-    }
-    .tab-container button, .subnav button {
-      background: none;
-      border: none;
-      padding: 1rem 1.5rem;
-      font-size: 1rem;
-      color: #555;
-      font-weight: 500;
-      flex: 1 1 auto;
-      cursor: pointer;
-      transition: background 0.2s, color 0.2s;
-      text-align: center;
-    }
-    .tab-container button:hover, .subnav button:hover {
-      background-color: #ddd;
-      color: #000;
-    }
-    .tab-container button.active, .subnav button.active {
-      background-color: #fff;
-      color: #007BFF;
-      font-weight: bold;
-      border-bottom: 3px solid #007BFF;
-    }
+
     main {
-      padding: 0;
       position: relative;
-      height: calc(100vh - 60px);
+      width: 100vw;
+      height: 100vh;
       overflow: hidden;
     }
+
     iframe {
       width: 100%;
       height: 100%;
@@ -60,15 +30,17 @@
       background: #fff;
       display: block;
     }
+
     .loader-overlay {
       position: absolute;
       inset: 0;
-      background: rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.85);
       z-index: 10;
       display: flex;
       align-items: center;
       justify-content: center;
     }
+
     .spinner {
       width: 50px;
       height: 50px;
@@ -77,165 +49,35 @@
       border-radius: 50%;
       animation: spin 1s linear infinite;
     }
+
     @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    @media (max-width: 600px) {
-      .tab-container button, .subnav button {
-        flex: 1 1 100%;
-        padding: 0.75rem;
-        font-size: 1rem;
-      }
-      main {
-        height: calc(100vh - 130px);
+      to {
+        transform: rotate(360deg);
       }
     }
   </style>
 </head>
 
 <body>
-  <div class="tab-container">
-    <button id="tab1" class="active">📥 Submit 入场申请</button>
-    <button id="tab2">🔍 Query 查找</button>
-    <button id="tab4">📊 Induction Slide 幻灯片</button>
-  </div>
-
-  <div class="subnav" id="subtabs-tab2">
-    <button id="query-subtab1" class="active">👤 Personnel Search 人员搜索</button>
-    <button id="query-subtab2">⛑ Helmet Number (EPG ONLY)</button>
-  </div>
-
-  <div class="subnav" id="subtabs-tab4">
-    <button id="subtab1" class="active">🏗 NTP Project</button>
-  </div>
-
   <main>
     <div class="loader-overlay" id="loader">
       <div class="spinner"></div>
     </div>
-    <iframe id="frame" src="https://twswzvv3ark.sg.feishu.cn/share/base/form/shrlgPuhdE1BMJp9m35UCE1P2db" title="EPG Induction Frame"></iframe>
+
+    <iframe
+      id="frame"
+      src="https://twswzvv3ark.sg.feishu.cn/file/JLJdb43Tro5EnAxJGEPl3b6UgY2?from=from_copylink"
+      title="EPG EHS Induction Slide">
+    </iframe>
   </main>
 
   <script>
-    const mainTabs = {
-      tab1: 'https://twswzvv3ark.sg.feishu.cn/share/base/form/shrlgPuhdE1BMJp9m35UCE1P2db',
-      tab2: ''
-    };
-
-    const subTabsSlide = {
-      subtab1: 'https://twswzvv3ark.sg.feishu.cn/file/JLJdb43Tro5EnAxJGEPl3b6UgY2?from=from_copylink'
-    };
-
-    const subTabsQuery = {
-      'query-subtab1': 'https://twswzvv3ark.sg.feishu.cn/share/base/query/shrlg51LfM6trGZoyggk5RhyiWy',
-      'query-subtab2': 'https://twswzvv3ark.sg.feishu.cn/share/base/query/shrlgyzxakBumb2qTqfjiprP2zk'
-    };
-
     const iframe = document.getElementById('frame');
     const loader = document.getElementById('loader');
 
-    function showLoader() {
-      loader.style.display = 'flex';
-    }
-
-    function hideLoader() {
+    iframe.addEventListener('load', () => {
       loader.style.display = 'none';
-    }
-
-    function loadIframe(src) {
-      showLoader();
-      iframe.src = src;
-    }
-
-    iframe.addEventListener('load', hideLoader);
-
-    function handleTabClick(id) {
-      document.querySelectorAll('.tab-container button').forEach(btn => btn.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-
-      document.getElementById('subtabs-tab2').style.display = 'none';
-      document.getElementById('subtabs-tab4').style.display = 'none';
-
-      if (id === 'tab2') {
-        document.getElementById('subtabs-tab2').style.display = 'flex';
-        handleQuerySubtabClick('query-subtab1');
-      } else if (id === 'tab4') {
-        document.getElementById('subtabs-tab4').style.display = 'flex';
-        handleSubtabClick('subtab1');
-      } else {
-        loadIframe(mainTabs[id]);
-      }
-
-      history.pushState({ tab: id }, '', `?tab=${id}`);
-    }
-
-    function handleSubtabClick(id) {
-      document.querySelectorAll('#subtabs-tab4 button').forEach(btn => btn.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-      loadIframe(subTabsSlide[id]);
-      history.pushState({ tab: 'tab4', subtab: id }, '', `?tab=tab4&subtab=${id}`);
-    }
-
-    function handleQuerySubtabClick(id) {
-      document.querySelectorAll('#subtabs-tab2 button').forEach(btn => btn.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-      loadIframe(subTabsQuery[id]);
-      history.pushState({ tab: 'tab2', subtab: id }, '', `?tab=tab2&subtab=${id}`);
-    }
-
-    document.querySelectorAll('.tab-container button').forEach(btn => {
-      btn.addEventListener('click', () => handleTabClick(btn.id));
-    });
-
-    document.querySelectorAll('#subtabs-tab4 button').forEach(btn => {
-      btn.addEventListener('click', () => handleSubtabClick(btn.id));
-    });
-
-    document.querySelectorAll('#subtabs-tab2 button').forEach(btn => {
-      btn.addEventListener('click', () => handleQuerySubtabClick(btn.id));
-    });
-
-    window.addEventListener('popstate', (event) => {
-      if (event.state?.tab) {
-        handleTabClick(event.state.tab);
-      }
-      if (event.state?.subtab) {
-        const subtabBtn = document.getElementById(event.state.subtab);
-        if (subtabBtn) {
-          if (event.state.tab === 'tab2') {
-            handleQuerySubtabClick(event.state.subtab);
-          } else if (event.state.tab === 'tab4') {
-            handleSubtabClick(event.state.subtab);
-          }
-        }
-      }
-    });
-
-    window.addEventListener('DOMContentLoaded', () => {
-      const params = new URLSearchParams(window.location.search);
-      const tab = params.get('tab');
-      const subtab = params.get('subtab');
-
-      if (tab && document.getElementById(tab)) {
-        handleTabClick(tab);
-        if (tab === 'tab4' && subtab && document.getElementById(subtab)) {
-          handleSubtabClick(subtab);
-        } else if (tab === 'tab2' && subtab && document.getElementById(subtab)) {
-          handleQuerySubtabClick(subtab);
-        }
-      } else if (subtab && document.getElementById(subtab)) {
-        if (subtab.startsWith('query-')) {
-          handleTabClick('tab2');
-          handleQuerySubtabClick(subtab);
-        } else {
-          handleTabClick('tab4');
-          handleSubtabClick(subtab);
-        }
-      } else {
-        handleTabClick('tab1');
-      }
     });
   </script>
 </body>
 </html>
-
